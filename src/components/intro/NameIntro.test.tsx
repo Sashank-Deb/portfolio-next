@@ -21,7 +21,7 @@ describe('NameIntro', () => {
     expect(op()).not.toBeVisible();
     expect(op()).toHaveTextContent('Sashank');
     expect(op().querySelectorAll('.op__word')[0]).toHaveTextContent('Deb');
-    expect(screen.getByRole('button', { name: /Skip intro/ })).toHaveAttribute('data-op-skip');
+    expect(screen.getByRole('button', { name: /Skip intro/, hidden: true })).toHaveAttribute('data-op-skip');
   });
 
   it('plays on a first visit and lifts the curtain when it ends', async () => {

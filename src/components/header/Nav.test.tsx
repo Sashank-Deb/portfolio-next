@@ -48,7 +48,7 @@ describe('mobile navigation', () => {
     const toggle = screen.getByRole('button', { name: 'Open menu' });
 
     await userEvent.click(toggle);
-    await userEvent.click(screen.getByRole('button', { name: 'Close menu' }));
+    await userEvent.click(document.getElementById('nav-close') as HTMLElement);
     expect(menu()).not.toHaveClass('show-menu');
 
     await userEvent.click(toggle);

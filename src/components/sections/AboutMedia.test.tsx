@@ -1,4 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import {
+  fireEvent, render, screen, waitFor,
+} from '@testing-library/react';
 import { setMediaQuery } from '@/test/browser-mocks';
 import { AboutMedia } from './AboutMedia';
 
@@ -34,9 +36,7 @@ describe('AboutMedia', () => {
 
     (HTMLMediaElement.prototype.play as jest.Mock).mockReturnValueOnce(Promise.reject(new Error('blocked')));
     fireEvent.click(wrapper());
-    await Promise.resolve();
-    await Promise.resolve();
-    expect(wrapper()).not.toHaveClass('is-playing');
+    await waitFor(() => expect(wrapper()).not.toHaveClass('is-playing'));
   });
 
   it('tilts towards the cursor on hover devices and settles on leave', () => {

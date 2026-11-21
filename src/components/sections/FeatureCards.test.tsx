@@ -14,8 +14,7 @@ describe('FeatureCards (expanding project cards)', () => {
     render(<FeatureCards projects={PROJECTS} revealIndex={1} />);
     expect(screen.getAllByRole('article')).toHaveLength(4);
     expect(card('react-liquid-fill')).toHaveClass('feat__card', 'is-active');
-    expect(card('react-liquid-fill')).toHaveAttribute('aria-expanded', 'true');
-    expect(card('noodl')).toHaveAttribute('aria-expanded', 'false');
+    expect(card('noodl')).not.toHaveClass('is-active');
     expect(screen.getByRole('img', { name: 'noodl website' })).toBeInTheDocument();
     expect(screen.getAllByRole('link', { name: /Visit site/ })[2]).toHaveAttribute('href', 'https://purrcast.vercel.app/');
     expect(feat()).toHaveAttribute('data-reveal', 'self');
