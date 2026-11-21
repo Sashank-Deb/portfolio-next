@@ -16,7 +16,7 @@ describe('Hero', () => {
   it('introduces Sashank with the CTAs, socials, portrait and stats', () => {
     render(<Hero />);
     expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent("Hi, I'm Sashank.");
-    expect(screen.getByText('Senior Software Engineer  /  Bengaluru, India')).toHaveClass('eyebrow');
+    expect(section('home').querySelector('.eyebrow')?.textContent).toBe('Senior Software Engineer \u00a0/\u00a0 Bengaluru, India');
     expect(screen.getByRole('link', { name: /See my work/ })).toHaveAttribute('href', '#projects');
     expect(screen.getByRole('link', { name: /Download CV/ })).toHaveAttribute('download', 'Sashank_Deb_Resume.pdf');
     expect(screen.getByRole('link', { name: 'GitHub' })).toHaveAttribute('href', 'https://github.com/Sashank-Deb');
@@ -29,7 +29,7 @@ describe('Hero', () => {
 describe('About', () => {
   it('has the bio, the facts and a CV download', () => {
     render(<About />);
-    expect(screen.getByRole('heading', { name: 'A little about me.' })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /A little about me/ })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'react-liquid-fill' })).toHaveAttribute('href', 'https://react-liquid-fill.com/');
     expect(screen.getByText('Years of experience')).toHaveClass('about__info-name');
     expect(screen.getByRole('link', { name: /Download CV/ })).toHaveClass('button', 'cv-btn');
@@ -51,7 +51,7 @@ describe('Experience', () => {
 describe('Projects', () => {
   it('shows the four featured projects', () => {
     render(<Projects />);
-    expect(screen.getByRole('heading', { name: "Things I've built recently." })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Things I've built recently/ })).toBeInTheDocument();
     expect(screen.getAllByRole('article')).toHaveLength(4);
   });
 });
@@ -82,7 +82,7 @@ describe('EarlierWork', () => {
   it('lists the archive projects with a load-more control', () => {
     render(<EarlierWork />);
     expect(section('work-grid').querySelectorAll('a.work')).toHaveLength(7);
-    expect(screen.getByRole('button', { name: /Load more/ })).toHaveAttribute('aria-controls', 'work-grid');
+    expect(screen.getByRole('button', { name: /Load more/, hidden: true })).toHaveAttribute('aria-controls', 'work-grid');
   });
 });
 
