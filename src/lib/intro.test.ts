@@ -4,9 +4,10 @@ const html = document.documentElement;
 const runGate = () => new Function(introGateScript)();
 
 const setNavigationType = (type?: NavigationTimingType) => {
-  jest.spyOn(performance, 'getEntriesByType').mockReturnValue(
-    (type ? [{ type }] : []) as unknown as PerformanceEntryList,
-  );
+  Object.defineProperty(performance, 'getEntriesByType', {
+    configurable: true,
+    value: () => (type ? [{ type }] : []),
+  });
 };
 
 describe('intro gate (inline, runs before first paint)', () => {
@@ -42,7 +43,7 @@ describe('intro gate (inline, runs before first paint)', () => {
 
   it('respects reduced motion for returning visitors', () => {
     localStorage.setItem(INTRO_SEEN_KEY, '1');
-    window.matchMedia = jest.fn().mockReturnValue({ matches: true });
+    jest.spyOn(window, 'matchMedia').mockReturnValue({ matches: true } as MediaQueryList);
     runGate();
     expect(html).toHaveAttribute('data-intro', 'none');
   });
@@ -55,7 +56,7 @@ describe('intro gate (inline, runs before first paint)', () => {
   });
 
   it('lifts the curtain after load if the app never claims it', () => {
-    jest.useFakeTimers();
+    jest.useFakeTimers({ doNotFake: ['performance'] });
     runGate();
     window.dispatchEvent(new Event('load'));
     jest.advanceTimersByTime(1500);
@@ -64,7 +65,7 @@ describe('intro gate (inline, runs before first paint)', () => {
   });
 
   it('leaves the curtain alone once the app has claimed it', () => {
-    jest.useFakeTimers();
+    jest.useFakeTimers({ doNotFake: ['performance'] });
     runGate();
     (window as { __opClaimed?: boolean }).__opClaimed = true;
     window.dispatchEvent(new Event('load'));

@@ -26,6 +26,8 @@ export default [
       'import-x/prefer-default-export': 'off',
       'react/require-default-props': 'off',
       'react/jsx-props-no-spreading': ['error', { html: 'ignore', exceptions: ['Image'] }],
+      // window.__opClaimed is the hand-off flag between the inline intro gate and the app.
+      'no-underscore-dangle': ['error', { allow: ['__opClaimed'] }],
     },
   },
   {
@@ -40,6 +42,7 @@ export default [
     rules: {
       'import-x/no-extraneous-dependencies': ['error', { devDependencies: true }],
       'max-classes-per-file': 'off',
+      'class-methods-use-this': 'off',
     },
   },
   {
