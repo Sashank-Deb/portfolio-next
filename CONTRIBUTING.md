@@ -20,9 +20,9 @@ type(optional-scope): what changed, in the imperative
 Why, if it isn't obvious.
 ```
 
-**Micro commits.** Each commit is one small, reviewable idea that leaves the build green, at most **400 changed lines**. The lockfile, images and fonts don't count. Follow the TDD rhythm:
+**Micro commits.** Each commit is one small, reviewable idea, at most **400 changed lines**. Apart from a deliberate failing-spec commit, each one leaves the build green. The lockfile, images and fonts don't count. Follow the TDD rhythm:
 
-1. `test(scope): …` adds the failing spec
+1. `test(scope): …` adds the failing spec (allowed: tests run on push, not on commit)
 2. `feat(scope): …` or `fix(scope): …` makes it pass
 3. `refactor(scope): …` tidies up, if needed
 
@@ -36,11 +36,11 @@ Formatting-only commits go in `.git-blame-ignore-revs`. Run `git config blame.ig
 
 ## Local checks (installed by `npm install`)
 
-| Hook         | Runs                                                                                      |
-| ------------ | ----------------------------------------------------------------------------------------- |
-| `pre-commit` | lint-staged on staged files: ESLint `--fix`, Prettier, and the Jest tests related to them |
-| `commit-msg` | commitlint (Conventional Commits)                                                         |
-| `pre-push`   | branch-name policy, `tsc --noEmit`, the full test suite                                   |
+| Hook         | Runs                                                     |
+| ------------ | -------------------------------------------------------- |
+| `pre-commit` | lint-staged on staged files: ESLint `--fix` and Prettier |
+| `commit-msg` | commitlint (Conventional Commits)                        |
+| `pre-push`   | branch-name policy, `tsc --noEmit`, the full test suite  |
 
 Formatting is Prettier's job and code quality is ESLint's (Airbnb rules, with `eslint-config-prettier` turning off the style rules they'd disagree on). `npm run format` formats everything.
 
