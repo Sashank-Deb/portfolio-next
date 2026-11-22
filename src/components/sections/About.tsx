@@ -2,6 +2,7 @@ import { ABOUT_FACTS } from '@/content/hero';
 import { CvButton } from '../ui/CvButton';
 import { SectionHead } from '../ui/SectionHead';
 import { AboutMedia } from './AboutMedia';
+import { CountUp } from './CountUp';
 
 const NBSP = ' ';
 
@@ -36,7 +37,7 @@ export function About() {
             <div className="about__info">
               {ABOUT_FACTS.map((f) => (
                 <div key={f.label}>
-                  <span className="about__info-title">{f.value}</span>
+                  <CountUp to={f.count} suffix={f.suffix} />
                   <span className="about__info-name">{f.label}</span>
                 </div>
               ))}
