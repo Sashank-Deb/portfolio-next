@@ -42,6 +42,10 @@ jobs:
       - run: npm ci
       - name: Branch name
         run: npm run check:branch -- "${{ github.head_ref }}"
+      - name: Conventional PR title (it becomes the squash commit on main)
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: printf '%s\n' "$TITLE" | npx commitlint --verbose
       - name: Conventional commit messages
         run: npx commitlint --from ${{ github.event.pull_request.base.sha }} --to HEAD --verbose
       - name: Micro commits
