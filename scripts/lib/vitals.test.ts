@@ -55,6 +55,13 @@ describe('Lighthouse vitals', () => {
     expect(md).toMatch(/Performance score \| 🟢 93 \| 🟢 95 \| \+2 ✅/);
   });
 
+  it('separates the mobile and desktop tables with a blank line', () => {
+    const pair = { before: extractVitals(lhr()), after: extractVitals(lhr()) };
+    expect(compareVitals({ mobile: pair, desktop: pair })).toMatch(
+      /\| no change \|\n\n### 🖥️ Desktop/,
+    );
+  });
+
   it('ignores changes inside the noise margin', () => {
     const before = extractVitals(lhr());
     const after = extractVitals(lhr({ lcp: 2130 }));
