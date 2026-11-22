@@ -125,6 +125,32 @@ describe('PeekingPill', () => {
     contact.remove();
   });
 
+  it('grows by up to its grow factor while peeking, staying inside the screen', () => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 390 });
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+      bottom: 150,
+      left: 20,
+      right: 312,
+      width: 292,
+    } as DOMRect);
+    render(
+      <PeekingPill
+        className="pill--lg"
+        href="mailto:a@b.c"
+        label="Send me an email"
+        avatarSize={44}
+        grow={1.5}
+        style={{ transformOrigin: '0px 50%' }}
+      />,
+    );
+    expect(pill().style.getPropertyValue('--peek-scale')).toBe('');
+    tick(2000);
+    expect(pill().style.getPropertyValue('--peek-scale')).toBe('1.19');
+    expect(pill().style.transformOrigin).toBe('0px 50%');
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1024 });
+  });
+
   it('can start later so two pills take turns', () => {
     render(
       <PeekingPill
