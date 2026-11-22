@@ -7,6 +7,9 @@ export const RESUME = {
 } as const;
 export const HEADSHOT = { src: '/assets/img/headshot.webp', width: 1172, height: 1395 } as const;
 
+/** Subject line both email buttons start the message with. */
+export const CONTACT_SUBJECT = 'Hello Sashank';
+
 export const mailto = (subject: string) =>
   `mailto:${EMAIL}?subject=${encodeURIComponent(subject).replace(/'/g, '%27')}`;
 

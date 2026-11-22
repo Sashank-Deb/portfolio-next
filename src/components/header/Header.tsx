@@ -1,4 +1,4 @@
-import { NAV_ITEMS, mailto } from '@/content/site';
+import { CONTACT_SUBJECT, NAV_ITEMS, mailto } from '@/content/site';
 import { Dot } from '../ui/Dot';
 import { PeekingPill } from '../ui/PeekingPill';
 import { HeaderShell } from './HeaderShell';
@@ -36,7 +36,7 @@ export function Header() {
             <ThemeToggle />
             <PeekingPill
               className="pill--nav"
-              href={mailto('Hi Sashank')}
+              href={mailto(CONTACT_SUBJECT)}
               label="Contact"
               avatarSize={36}
               yieldTo="contact"
