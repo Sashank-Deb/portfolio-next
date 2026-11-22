@@ -10,8 +10,14 @@ export const STATS: Stat[] = [
   { value: '−30%', label: 'Auth support tickets after the PIN-to-password migration' },
 ];
 
-export const ABOUT_FACTS = [
-  { value: '5+', label: 'Years of experience' },
-  { value: '20+', label: 'Projects shipped' },
-  { value: '3', label: 'Companies' },
+export interface AboutFact {
+  count: number;
+  suffix?: string;
+  label: string;
+}
+
+export const ABOUT_FACTS: AboutFact[] = [
+  { count: 5, suffix: '+', label: 'Years of experience' },
+  { count: 20, suffix: '+', label: 'Projects shipped' },
+  { count: 3, label: 'Companies' },
 ];

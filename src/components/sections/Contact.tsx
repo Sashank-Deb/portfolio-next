@@ -1,4 +1,4 @@
-import { EMAIL, LOCATION, PHONE, SOCIALS, mailto } from '@/content/site';
+import { CONTACT_SUBJECT, EMAIL, LOCATION, PHONE, SOCIALS, mailto } from '@/content/site';
 import { Dot } from '../ui/Dot';
 import { PeekingPill } from '../ui/PeekingPill';
 import { CopyEmail } from './CopyEmail';
@@ -18,7 +18,7 @@ export function Contact() {
           {/* Starts half a beat after the header pill so the two take turns. */}
           <PeekingPill
             className="pill--lg"
-            href={mailto("Let's work together")}
+            href={mailto(CONTACT_SUBJECT)}
             label="Send me an email"
             avatarSize={44}
             arrow
