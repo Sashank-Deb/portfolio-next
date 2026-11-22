@@ -13,7 +13,12 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "husky",
+    "check:branch": "node scripts/check-branch.ts",
+    "check:commits": "node scripts/check-commits.ts",
+    "lighthouse:run": "node scripts/lighthouse-run.ts",
+    "lighthouse:compare": "node scripts/lighthouse-compare.ts"
   },
   "dependencies": {
     "next": "^16.4.6",
@@ -21,6 +26,8 @@
     "react-dom": "^19.3.1"
   },
   "devDependencies": {
+    "@commitlint/cli": "21.2.4",
+    "@commitlint/config-conventional": "21.2.4",
     "@eslint/compat": "^2.1.1",
     "@fontsource-variable/dm-sans": "^5.3.0",
     "@fontsource-variable/jost": "^5.3.0",
@@ -39,8 +46,11 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-import-resolver-typescript": "^4.4.5",
     "globals": "^17.14.0",
+    "husky": "9.1.7",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
+    "lighthouse": "13.6.0",
+    "lint-staged": "17.6.2",
     "prettier": "3.10.1",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.73.0"

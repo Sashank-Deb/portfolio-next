@@ -1,0 +1,3 @@
+node scripts/check-branch.ts
+npm run typecheck
+npm test -- --silent
