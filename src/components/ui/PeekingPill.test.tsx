@@ -141,12 +141,13 @@ describe('PeekingPill', () => {
         label="Send me an email"
         avatarSize={44}
         grow={1.5}
-        style={{ transformOrigin: '0px 50%' }}
+        style={{ transformOrigin: '0px 50%', marginRight: '30px' }}
       />,
     );
     expect(pill().style.getPropertyValue('--peek-scale')).toBe('');
     tick(2000);
-    expect(pill().style.getPropertyValue('--peek-scale')).toBe('1.19');
+    // fitted to the peek footprint: 292px plus the 30px reserved for the Gmail icon
+    expect(pill().style.getPropertyValue('--peek-scale')).toBe('1.08');
     expect(pill().style.transformOrigin).toBe('0px 50%');
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1024 });
   });
