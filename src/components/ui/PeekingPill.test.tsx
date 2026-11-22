@@ -99,6 +99,82 @@ describe('PeekingPill', () => {
     expect(pill()).toHaveClass('pill--lg', 'is-peek');
   });
 
+  it('stays still while the section it yields to is on screen', () => {
+    document.body.insertAdjacentHTML('beforeend', '<section id="contact"></section>');
+    const contact = document.getElementById('contact') as HTMLElement;
+    const sectionOnScreen = (visible: boolean) => {
+      // An own stub: spyOn would reuse the prototype-wide mock and move the pill too.
+      contact.getBoundingClientRect = () =>
+        ({ top: visible ? 300 : 5000, bottom: visible ? 900 : 5600 }) as DOMRect;
+    };
+    sectionOnScreen(true);
+    render(
+      <PeekingPill
+        className="pill--nav"
+        href="mailto:a@b.c"
+        label="Contact"
+        avatarSize={36}
+        yieldTo="contact"
+      />,
+    );
+    tick(12000);
+    expect(pill()).not.toHaveClass('is-peek');
+    sectionOnScreen(false);
+    tick(5000);
+    expect(pill()).toHaveClass('is-peek');
+    contact.remove();
+  });
+
+  it('grows by up to its grow factor while peeking, staying inside the screen', () => {
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 390 });
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+      bottom: 150,
+      left: 20,
+      right: 312,
+      width: 292,
+    } as DOMRect);
+    render(
+      <PeekingPill
+        className="pill--lg"
+        href="mailto:a@b.c"
+        label="Send me an email"
+        avatarSize={44}
+        grow={1.5}
+        style={{ marginRight: '30px' }}
+      />,
+    );
+    expect(pill().style.getPropertyValue('--peek-scale')).toBe('');
+    tick(2000);
+    // fitted to the peek footprint: 292px plus the 30px reserved for the Gmail icon
+    expect(pill().style.getPropertyValue('--peek-scale')).toBe('1.08');
+    // at the screen's left edge, growing rightwards from the left gets further than from the centre
+    expect(pill().style.transformOrigin).toBe('left center');
+    Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1024 });
+  });
+
+  it('grows from its centre when there is room on both sides', () => {
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+      bottom: 150,
+      left: 400,
+      right: 692,
+      width: 292,
+    } as DOMRect);
+    render(
+      <PeekingPill
+        className="pill--lg"
+        href="mailto:a@b.c"
+        label="Send me an email"
+        avatarSize={44}
+        grow={1.5}
+      />,
+    );
+    tick(2000);
+    expect(pill().style.getPropertyValue('--peek-scale')).toBe('1.5');
+    expect(pill().style.transformOrigin).toBe('center center');
+  });
+
   it('can start later so two pills take turns', () => {
     render(
       <PeekingPill

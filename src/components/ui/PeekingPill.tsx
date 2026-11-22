@@ -1,22 +1,67 @@
 'use client';
 
-import { type ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  type CSSProperties,
+  type ComponentProps,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useReducedMotion } from '@/hooks/useMediaQuery';
 import { cx } from '@/lib/cx';
+import { fitScale } from '@/lib/fit-scale';
 import { Pill } from './Pill';
 
 const PEEK_EVERY_MS = 5000;
 const PEEK_FOR_MS = 1100;
+const EDGE_MARGIN = 20;
 
 type PeekingPillProps = ComponentProps<typeof Pill> & {
   /** When the first peek happens; offset pills so they take turns. */
   firstPeekMs?: number;
+  /** Id of a section that has the stage while it's on screen; this pill stays still meanwhile. */
+  yieldTo?: string;
+  /** Grow up to this factor while peeking, as far as fits on screen (CSS reads --peek-scale). */
+  grow?: number;
 };
 
-const isOnScreen = (el: HTMLElement) => {
-  if (el.offsetParent === null) return false; // display: none at this breakpoint
+const inViewport = (el: Element) => {
   const r = el.getBoundingClientRect();
   return r.bottom > 0 && r.top < window.innerHeight;
+};
+
+// offsetParent is null when the pill is display: none at this breakpoint.
+const isOnScreen = (el: HTMLElement) => el.offsetParent !== null && inViewport(el);
+
+type Growth = { scale: number; origin: 'center center' | 'left center' };
+
+/**
+ * While peeking the pill also widens (the Gmail icon slides in) into the margin CSS reserves beside it,
+ * so the fit is measured on that footprint: the resting box plus its reserved margins.
+ * It grows from its centre when there's room, or from its left edge when that gets it further
+ * (e.g. when it sits at the content's left edge on narrower screens).
+ */
+const growthThatFits = (el: HTMLElement, max: number): Growth => {
+  const rect = el.getBoundingClientRect();
+  const css = getComputedStyle(el);
+  const px = (v: string) => parseFloat(v) || 0;
+  const reservedLeft = px(css.marginLeft);
+  const width = rect.width + reservedLeft + px(css.marginRight);
+  const fit = (originX: number) =>
+    fitScale({
+      left: rect.left - reservedLeft,
+      width,
+      originX,
+      viewport: window.innerWidth,
+      margin: EDGE_MARGIN,
+      max,
+    });
+  const fromCentre = fit(width / 2);
+  const fromLeft = fit(0);
+  return fromLeft > fromCentre
+    ? { scale: fromLeft, origin: 'left center' }
+    : { scale: fromCentre, origin: 'center center' };
 };
 
 /**
@@ -26,7 +71,10 @@ const isOnScreen = (el: HTMLElement) => {
  */
 export function PeekingPill({
   firstPeekMs = 2000,
+  yieldTo,
+  grow,
   className,
+  style,
   onPointerEnter,
   onPointerLeave,
   onFocus,
@@ -35,6 +83,7 @@ export function PeekingPill({
 }: PeekingPillProps) {
   const reduced = useReducedMotion();
   const [peek, setPeek] = useState(false);
+  const [growth, setGrowth] = useState<Growth>();
   const ref = useRef<HTMLAnchorElement>(null);
   const engaged = useRef({ hover: false, focus: false });
 
@@ -46,7 +95,10 @@ export function PeekingPill({
       const el = ref.current;
       const { hover, focus } = engaged.current;
       const covered = document.documentElement.getAttribute('data-intro') === 'play';
+      const stage = yieldTo ? document.getElementById(yieldTo) : null;
       if (!el || hover || focus || document.hidden || covered || !isOnScreen(el)) return;
+      if (stage && inViewport(stage)) return;
+      if (grow) setGrowth(growthThatFits(el, grow)); // measured at rest, before the scale applies
       setPeek(true);
       hide = window.setTimeout(() => setPeek(false), PEEK_FOR_MS);
     };
@@ -59,7 +111,7 @@ export function PeekingPill({
       clearInterval(interval);
       clearTimeout(hide);
     };
-  }, [reduced, firstPeekMs]);
+  }, [reduced, firstPeekMs, yieldTo, grow]);
 
   const engage = useCallback((key: 'hover' | 'focus', on: boolean) => {
     engaged.current[key] = on;
@@ -71,6 +123,15 @@ export function PeekingPill({
       {...pill}
       ref={ref}
       className={cx(className, peek && 'is-peek')}
+      style={
+        growth
+          ? ({
+              ...style,
+              '--peek-scale': growth.scale,
+              transformOrigin: growth.origin,
+            } as CSSProperties)
+          : style
+      }
       onPointerEnter={(e) => {
         engage('hover', true);
         onPointerEnter?.(e);

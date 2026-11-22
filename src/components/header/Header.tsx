@@ -39,6 +39,7 @@ export function Header() {
               href={mailto('Hi Sashank')}
               label="Contact"
               avatarSize={36}
+              yieldTo="contact"
             />
             <NavToggle />
           </div>
