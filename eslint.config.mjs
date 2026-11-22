@@ -29,7 +29,10 @@ export default [
       // Named exports keep imports greppable and refactors safe; Next's special files are the exception below.
       'import-x/prefer-default-export': 'off',
       'react/require-default-props': 'off',
-      'react/jsx-props-no-spreading': ['error', { html: 'ignore', exceptions: ['Image', 'Pill'] }],
+      'react/jsx-props-no-spreading': [
+        'error',
+        { html: 'ignore', exceptions: ['Image', 'Pill', 'PeekingPill'] },
+      ],
       // window.__opClaimed is the hand-off flag between the inline intro gate and the app.
       'no-underscore-dangle': ['error', { allow: ['__opClaimed'] }],
     },
