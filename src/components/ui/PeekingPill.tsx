@@ -11,13 +11,17 @@ const PEEK_FOR_MS = 1100;
 type PeekingPillProps = ComponentProps<typeof Pill> & {
   /** When the first peek happens; offset pills so they take turns. */
   firstPeekMs?: number;
+  /** Id of a section that has the stage while it's on screen; this pill stays still meanwhile. */
+  yieldTo?: string;
 };
 
-const isOnScreen = (el: HTMLElement) => {
-  if (el.offsetParent === null) return false; // display: none at this breakpoint
+const inViewport = (el: Element) => {
   const r = el.getBoundingClientRect();
   return r.bottom > 0 && r.top < window.innerHeight;
 };
+
+// offsetParent is null when the pill is display: none at this breakpoint.
+const isOnScreen = (el: HTMLElement) => el.offsetParent !== null && inViewport(el);
 
 /**
  * The contact pill, which every 5s briefly shows its hover state (Gmail slides in) with a subtle buzz.
@@ -26,6 +30,7 @@ const isOnScreen = (el: HTMLElement) => {
  */
 export function PeekingPill({
   firstPeekMs = 2000,
+  yieldTo,
   className,
   onPointerEnter,
   onPointerLeave,
@@ -46,7 +51,9 @@ export function PeekingPill({
       const el = ref.current;
       const { hover, focus } = engaged.current;
       const covered = document.documentElement.getAttribute('data-intro') === 'play';
+      const stage = yieldTo ? document.getElementById(yieldTo) : null;
       if (!el || hover || focus || document.hidden || covered || !isOnScreen(el)) return;
+      if (stage && inViewport(stage)) return;
       setPeek(true);
       hide = window.setTimeout(() => setPeek(false), PEEK_FOR_MS);
     };
@@ -59,7 +66,7 @@ export function PeekingPill({
       clearInterval(interval);
       clearTimeout(hide);
     };
-  }, [reduced, firstPeekMs]);
+  }, [reduced, firstPeekMs, yieldTo]);
 
   const engage = useCallback((key: 'hover' | 'focus', on: boolean) => {
     engaged.current[key] = on;
