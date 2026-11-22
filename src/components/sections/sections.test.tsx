@@ -110,7 +110,9 @@ describe('Contact', () => {
   it('offers email, LinkedIn, copy and phone', () => {
     render(<Contact />);
     expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent('We may work well together.');
-    expect(screen.getByRole('link', { name: 'Email Sashank' })).toHaveAttribute('href', 'mailto:sashankdebrgu7@gmail.com?subject=Let%27s%20work%20together');
+    const pill = screen.getByRole('link', { name: 'Email Sashank' });
+    expect(pill).toHaveAttribute('href', 'mailto:sashankdebrgu7@gmail.com?subject=Let%27s%20work%20together');
+    expect(pill).toHaveClass('pill--lg');
     expect(screen.getByRole('link', { name: 'Or reach me on LinkedIn' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '+91 73974 41915' })).toHaveAttribute('href', 'tel:+917397441915');
     expect(screen.getByRole('button', { name: /sashankdebrgu7@gmail.com/ })).toBeInTheDocument();
