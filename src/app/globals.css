@@ -226,10 +226,13 @@ html.dark-theme .theme-icon--moon { display: none; }
 .pill:hover .pill__arrow, .pill:focus-visible .pill__arrow { transform: translateX(4px); }
 
 .pill--nav { --h: 44px; font-size: .95rem; padding-right: 18px; }
-/* every 2s main.js adds .is-peek: the pill opens its hover state (Gmail slides in) and buzzes */
-.pill--nav.is-peek { margin-left: 0; animation: pill-buzz .55s ease-in-out .15s; }
-.pill--nav.is-peek .pill__gmail { width: var(--av); margin-left: calc(var(--av) * -.3); opacity: 1; transform: none; }
-.pill--nav.is-peek .pill__avatar { transform: rotate(-6deg); }
+/* every 5s PeekingPill adds .is-peek: the pill opens its hover state (Gmail slides in) and buzzes */
+.pill.is-peek { animation: pill-buzz .55s ease-in-out .15s; }
+.pill--nav.is-peek { margin-left: 0; }
+.pill--lg.is-peek { margin-right: 0; }
+.pill.is-peek .pill__gmail { width: var(--av); margin-left: calc(var(--av) * -.3); opacity: 1; transform: none; }
+.pill.is-peek .pill__avatar { transform: rotate(-6deg); }
+.pill.is-peek .pill__arrow { transform: translateX(4px); }
 @keyframes pill-buzz {
     0%, 100% { transform: none; }
     15% { transform: translateX(-1.5px) rotate(-2deg); }
