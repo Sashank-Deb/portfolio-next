@@ -48,7 +48,9 @@ describe('Lighthouse vitals', () => {
     const md = compareVitals({ mobile: { before, after } });
     expect(md).toContain('| Metric | Before (main) | After (PR) | Change |');
     expect(md).toMatch(/Largest Contentful Paint \| 🟢 2\.10 s \| 🟢 1\.80 s \| -300 ms ✅/);
-    expect(md).toMatch(/Total Blocking Time \(lab proxy for INP\) \| 🟢 120 ms \| 🟠 260 ms \| \+140 ms ⚠️/);
+    expect(md).toMatch(
+      /Total Blocking Time \(lab proxy for INP\) \| 🟢 120 ms \| 🟠 260 ms \| \+140 ms ⚠️/,
+    );
     expect(md).toMatch(/Cumulative Layout Shift \| 🟢 0\.020 \| 🟢 0\.020 \| no change/);
     expect(md).toMatch(/Performance score \| 🟢 93 \| 🟢 95 \| \+2 ✅/);
   });
