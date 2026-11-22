@@ -180,7 +180,7 @@ html.dark-theme .theme-icon--moon { display: none; }
     font-size: 1rem;
     white-space: nowrap;
     box-shadow: 0 10px 26px -12px rgba(0, 0, 0, .55), inset 0 0 0 1px rgba(255, 255, 255, .06);
-    transition: transform .6s var(--ease), box-shadow .6s var(--ease), margin .6s var(--ease);
+    transition: transform .6s var(--ease), box-shadow .6s var(--ease), margin .6s var(--ease), scale .45s var(--ease);
 }
 /* reserve the room the pill grows into, so neighbours never shift */
 .pill--lg { margin-right: calc(var(--av) * .7); }
@@ -229,7 +229,8 @@ html.dark-theme .theme-icon--moon { display: none; }
 /* every 5s PeekingPill adds .is-peek: the pill opens its hover state (Gmail slides in) and buzzes */
 .pill.is-peek { animation: pill-buzz .55s ease-in-out .15s; }
 .pill--nav.is-peek { margin-left: 0; }
-.pill--lg.is-peek { margin-right: 0; }
+/* the CTA pill also grows to 1.5x while it peeks, above its neighbours */
+.pill--lg.is-peek { margin-right: 0; scale: 1.5; position: relative; z-index: 2; }
 .pill.is-peek .pill__gmail { width: var(--av); margin-left: calc(var(--av) * -.3); opacity: 1; transform: none; }
 .pill.is-peek .pill__avatar { transform: rotate(-6deg); }
 .pill.is-peek .pill__arrow { transform: translateX(4px); }
@@ -1217,6 +1218,9 @@ html.dark-theme .cert__paper { background: #EFEBE4; }
     .tabs__btn i { display: none; }
     .cta { padding: 112px 0 96px; }
     .pill--lg { --h: 56px; font-size: 1.05rem; }
+    /* 1.5x would run off a phone screen: grow from the left edge, as large as fits */
+    .pill--lg { transform-origin: left center; }
+    .pill--lg.is-peek { scale: 1.3; }
     .portrait__tag { left: 0; }
 }
 
