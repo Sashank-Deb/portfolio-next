@@ -141,15 +141,38 @@ describe('PeekingPill', () => {
         label="Send me an email"
         avatarSize={44}
         grow={1.5}
-        style={{ transformOrigin: '0px 50%', marginRight: '30px' }}
+        style={{ marginRight: '30px' }}
       />,
     );
     expect(pill().style.getPropertyValue('--peek-scale')).toBe('');
     tick(2000);
     // fitted to the peek footprint: 292px plus the 30px reserved for the Gmail icon
     expect(pill().style.getPropertyValue('--peek-scale')).toBe('1.08');
-    expect(pill().style.transformOrigin).toBe('0px 50%');
+    // at the screen's left edge, growing rightwards from the left gets further than from the centre
+    expect(pill().style.transformOrigin).toBe('left center');
     Object.defineProperty(window, 'innerWidth', { configurable: true, value: 1024 });
+  });
+
+  it('grows from its centre when there is room on both sides', () => {
+    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+      top: 100,
+      bottom: 150,
+      left: 400,
+      right: 692,
+      width: 292,
+    } as DOMRect);
+    render(
+      <PeekingPill
+        className="pill--lg"
+        href="mailto:a@b.c"
+        label="Send me an email"
+        avatarSize={44}
+        grow={1.5}
+      />,
+    );
+    tick(2000);
+    expect(pill().style.getPropertyValue('--peek-scale')).toBe('1.5');
+    expect(pill().style.transformOrigin).toBe('center center');
   });
 
   it('can start later so two pills take turns', () => {
