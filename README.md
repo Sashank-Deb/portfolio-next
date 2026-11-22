@@ -43,6 +43,10 @@ Fonts are the same variable font files the site used from Google Fonts, self-hos
 
 Each module was written test-first: the git history has a failing `test:` commit before each `feat:` commit. Browser APIs jsdom lacks (IntersectionObserver, matchMedia, Web Animations, media playback) have deterministic doubles in `src/test/browser-mocks.ts`. Inline head scripts are tested by executing the exact string that ships.
 
+## Contributing
+
+Branching strategy, commit rules, git hooks and the PR checks (including the Lighthouse before/after) are in [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ## Deploying
 
 Import the repo in Vercel; no configuration is needed. Set `NEXT_PUBLIC_SITE_URL` once a custom domain is used (Open Graph URLs fall back to the Vercel production URL).
