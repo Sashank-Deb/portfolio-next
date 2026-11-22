@@ -9,12 +9,19 @@ const scrollTo = (y: number) => {
 
 describe('scroll-aware chrome', () => {
   beforeEach(() => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => { cb(0); return 0; });
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      cb(0);
+      return 0;
+    });
     Object.defineProperty(window, 'scrollY', { configurable: true, value: 0 });
   });
 
   it('gives the header its scrolled style after 12px', () => {
-    render(<HeaderShell><span>nav</span></HeaderShell>);
+    render(
+      <HeaderShell>
+        <span>nav</span>
+      </HeaderShell>,
+    );
     const header = screen.getByRole('banner');
     expect(header).toHaveAttribute('id', 'header');
     expect(header).toHaveClass('header');

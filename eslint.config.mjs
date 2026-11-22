@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { includeIgnoreFile } from '@eslint/compat';
 import { configs, plugins } from 'eslint-config-airbnb-extended';
+import prettier from 'eslint-config-prettier/flat';
 import globals from 'globals';
 
 const gitignorePath = path.resolve('.', '.gitignore');
@@ -19,6 +20,9 @@ export default [
   ...configs.next.recommended,
   ...configs.next.typescript,
 
+  // Turn off every stylistic rule Prettier now owns (must come after the Airbnb configs).
+  prettier,
+
   {
     name: 'project/overrides',
     rules: {
@@ -32,7 +36,10 @@ export default [
   },
   {
     name: 'project/next-special-files',
-    files: ['src/app/**/{page,layout,not-found,error,opengraph-image,icon}.tsx', '*.config.{ts,mjs}'],
+    files: [
+      'src/app/**/{page,layout,not-found,error,opengraph-image,icon}.tsx',
+      '*.config.{ts,mjs}',
+    ],
     rules: { 'import-x/no-default-export': 'off' },
   },
   {

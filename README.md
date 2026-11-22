@@ -6,14 +6,14 @@ It is a pixel-for-pixel port of the static site at [sashank-deb.github.io/Profil
 
 ## Scripts
 
-| | |
-|---|---|
-| `npm run dev` | Local dev server |
-| `npm test` / `npm run test:watch` | Unit tests |
-| `npm run test:coverage` | Tests with the enforced coverage thresholds |
-| `npm run lint` | ESLint (Airbnb, TypeScript, React, hooks, jsx-a11y, Next) |
-| `npm run typecheck` | `tsc --noEmit` (strict, `noUncheckedIndexedAccess`) |
-| `npm run build` | Production build (the page is statically prerendered, revalidated daily) |
+|                                   |                                                                          |
+| --------------------------------- | ------------------------------------------------------------------------ |
+| `npm run dev`                     | Local dev server                                                         |
+| `npm test` / `npm run test:watch` | Unit tests                                                               |
+| `npm run test:coverage`           | Tests with the enforced coverage thresholds                              |
+| `npm run lint`                    | ESLint (Airbnb, TypeScript, React, hooks, jsx-a11y, Next)                |
+| `npm run typecheck`               | `tsc --noEmit` (strict, `noUncheckedIndexedAccess`)                      |
+| `npm run build`                   | Production build (the page is statically prerendered, revalidated daily) |
 
 ## Architecture: server first, small client islands
 
@@ -21,19 +21,19 @@ Everything that is just content is a **Server Component** and ships no JavaScrip
 
 Only the parts that react to the visitor are client components, each kept as small as possible:
 
-| Island | What it does |
-|---|---|
-| `HeaderShell`, `ScrollUp` | Scroll-aware header style and back-to-top (`useScrolledPast`, rAF-throttled, re-renders only when the boolean flips) |
-| `NavProvider`, `NavMenu`, `NavToggle`, `NavClose`, `NavLink` | Mobile bottom sheet and the active-section scroll-spy; the link list itself is server-rendered children |
-| `ThemeToggle`, `SoundToggle` | Theme lives on `<html>` (set before paint), sound state in a `useSyncExternalStore` engine |
-| `NavContactPill` | The 5-second "peek" that stops for the session after real interaction |
-| `Tabs` | Accessible tabs; the panels are server-rendered and passed in as props |
-| `FeatureCards` | Expanding project cards with the auto-advancing progress bar |
-| `LoadMore` | Load more / show less around server-rendered grids |
-| `RecCard`, `AboutMedia`, `CopyEmail` | Show more, video and tilt, clipboard |
-| `Flapboard` | Split-flap footer driven by the Web Animations API |
-| `NameIntro`, `ReplayIntroButton` | First-visit name intro and its replay button |
-| `ViewportEffects`, `ClickSounds` | One observer pair for all server-rendered reveals, one delegated listener for UI sounds |
+| Island                                                       | What it does                                                                                                         |
+| ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------- |
+| `HeaderShell`, `ScrollUp`                                    | Scroll-aware header style and back-to-top (`useScrolledPast`, rAF-throttled, re-renders only when the boolean flips) |
+| `NavProvider`, `NavMenu`, `NavToggle`, `NavClose`, `NavLink` | Mobile bottom sheet and the active-section scroll-spy; the link list itself is server-rendered children              |
+| `ThemeToggle`, `SoundToggle`                                 | Theme lives on `<html>` (set before paint), sound state in a `useSyncExternalStore` engine                           |
+| `NavContactPill`                                             | The 5-second "peek" that stops for the session after real interaction                                                |
+| `Tabs`                                                       | Accessible tabs; the panels are server-rendered and passed in as props                                               |
+| `FeatureCards`                                               | Expanding project cards with the auto-advancing progress bar                                                         |
+| `LoadMore`                                                   | Load more / show less around server-rendered grids                                                                   |
+| `RecCard`, `AboutMedia`, `CopyEmail`                         | Show more, video and tilt, clipboard                                                                                 |
+| `Flapboard`                                                  | Split-flap footer driven by the Web Animations API                                                                   |
+| `NameIntro`, `ReplayIntroButton`                             | First-visit name intro and its replay button                                                                         |
+| `ViewportEffects`, `ClickSounds`                             | One observer pair for all server-rendered reveals, one delegated listener for UI sounds                              |
 
 Two tiny inline scripts in `<head>` (`src/lib/theme.ts`, `src/lib/intro.ts`) run before first paint, so there is never a theme flash and the intro curtain is up from the very first frame.
 
@@ -42,6 +42,10 @@ Fonts are the same variable font files the site used from Google Fonts, self-hos
 ## Testing approach
 
 Each module was written test-first: the git history has a failing `test:` commit before each `feat:` commit. Browser APIs jsdom lacks (IntersectionObserver, matchMedia, Web Animations, media playback) have deterministic doubles in `src/test/browser-mocks.ts`. Inline head scripts are tested by executing the exact string that ships.
+
+## Contributing
+
+Branching strategy, commit rules, git hooks and the PR checks (including the Lighthouse before/after) are in [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Deploying
 

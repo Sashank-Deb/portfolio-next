@@ -24,7 +24,9 @@ export function CopyEmail({ email }: { email: string }) {
     <button className="cta__copy" type="button" id="copy-email" data-email={email} onClick={copy}>
       <span>{email}</span>
       <i className="uil uil-copy" />
-      <span className="cta__copied" aria-live="polite">{note}</span>
+      <span className="cta__copied" aria-live="polite">
+        {note}
+      </span>
     </button>
   );
 }

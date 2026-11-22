@@ -1,0 +1,79 @@
+name: Lighthouse
+
+# Builds main and the PR, runs the Lighthouse CLI against both (mobile and desktop, median of 3),
+# and posts a before/after Core Web Vitals table on the PR.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  vitals:
+    name: Core Web Vitals before/after
+    runs-on: ubuntu-latest
+    env:
+      NEXT_TELEMETRY_DISABLED: 1
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Build the PR (after)
+        run: npm ci && npm run build
+
+      - name: Build main (before)
+        run: |
+          git worktree add ../base ${{ github.event.pull_request.base.sha }}
+          cd ../base && npm ci && npm run build
+
+      - name: Serve both builds
+        run: |
+          (npx next start -p 3001 > /tmp/head.log 2>&1 &)
+          (cd ../base && npx next start -p 3000 > /tmp/base.log 2>&1 &)
+          npx --yes wait-on@8 -t 60000 http://localhost:3000 http://localhost:3001
+
+      - name: Run Lighthouse
+        env:
+          CHROME_PATH: /usr/bin/google-chrome
+        run: |
+          mkdir -p .lighthouse
+          for device in mobile desktop; do
+            npm run lighthouse:run -- http://localhost:3000/ $device .lighthouse/base-$device.json 3
+            npm run lighthouse:run -- http://localhost:3001/ $device .lighthouse/head-$device.json 3
+          done
+          npm run --silent lighthouse:compare -- .lighthouse > .lighthouse/report.md
+          cat .lighthouse/report.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on the PR
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('node:fs');
+            const marker = '<!-- lighthouse-vitals -->';
+            const body = `${marker}\n${fs.readFileSync('.lighthouse/report.md', 'utf8')}`;
+            const { owner, repo } = context.repo;
+            const issue_number = context.issue.number;
+            const comments = await github.paginate(github.rest.issues.listComments, { owner, repo, issue_number });
+            const existing = comments.find((c) => c.body?.startsWith(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({ owner, repo, comment_id: existing.id, body });
+            } else {
+              await github.rest.issues.createComment({ owner, repo, issue_number, body });
+            }
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse
+          path: .lighthouse

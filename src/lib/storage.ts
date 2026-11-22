@@ -1,6 +1,7 @@
 type StorageKind = 'local' | 'session';
 
-const area = (kind: StorageKind): Storage => (kind === 'local' ? window.localStorage : window.sessionStorage);
+const area = (kind: StorageKind): Storage =>
+  kind === 'local' ? window.localStorage : window.sessionStorage;
 
 /** Read a value, treating blocked storage (private mode, sandboxed frames) as empty. */
 export const readStorage = (kind: StorageKind, key: string): string | null => {

@@ -19,16 +19,18 @@ function Job({ entry, reveal = false }: { entry: Entry; reveal?: boolean }) {
           </p>
         )}
         {entry.points && (
-          // Points are static strings or fragments that never reorder.
-          // eslint-disable-next-line react/no-array-index-key
-          <ul className="job__points">{entry.points.map((p, i) => <li key={i}>{p}</li>)}</ul>
+          <ul className="job__points">
+            {entry.points.map((p, i) => (
+              // Points are static strings or fragments that never reorder.
+              // eslint-disable-next-line react/no-array-index-key
+              <li key={i}>{p}</li>
+            ))}
+          </ul>
         )}
         {entry.chips && <Chips items={entry.chips} />}
         {entry.link && (
           <a className="link-arrow job__link" href={entry.link.href}>
-            {entry.link.label}
-            {' '}
-            <i className="uil uil-arrow-down" />
+            {entry.link.label} <i className="uil uil-arrow-down" />
           </a>
         )}
       </div>
@@ -36,7 +38,8 @@ function Job({ entry, reveal = false }: { entry: Entry; reveal?: boolean }) {
   );
 }
 
-const panel = (entries: Entry[], reveal = false) => entries.map((e) => <Job key={e.role} entry={e} reveal={reveal} />);
+const panel = (entries: Entry[], reveal = false) =>
+  entries.map((e) => <Job key={e.role} entry={e} reveal={reveal} />);
 
 export function Experience() {
   return (
@@ -47,13 +50,22 @@ export function Experience() {
           label="Qualification"
           tabs={[
             {
-              id: 'work', label: 'Work', icon: 'uil-briefcase-alt', panel: panel(WORK, true),
+              id: 'work',
+              label: 'Work',
+              icon: 'uil-briefcase-alt',
+              panel: panel(WORK, true),
             },
             {
-              id: 'education', label: 'Education', icon: 'uil-graduation-cap', panel: panel(EDUCATION),
+              id: 'education',
+              label: 'Education',
+              icon: 'uil-graduation-cap',
+              panel: panel(EDUCATION),
             },
             {
-              id: 'achievements', label: 'Achievements', icon: 'uil-trophy', panel: panel(ACHIEVEMENTS),
+              id: 'achievements',
+              label: 'Achievements',
+              icon: 'uil-trophy',
+              panel: panel(ACHIEVEMENTS),
             },
           ]}
         />

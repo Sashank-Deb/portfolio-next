@@ -37,25 +37,46 @@ export function RecCard({ rec, revealIndex = 0 }: { rec: Recommendation; revealI
   };
 
   return (
-    <article className={cx('rec', revealed && 'is-in', short && 'is-short', open && 'is-open')} data-reveal="self" style={revealStyle} ref={revealRef}>
+    <article
+      className={cx('rec', revealed && 'is-in', short && 'is-short', open && 'is-open')}
+      data-reveal="self"
+      style={revealStyle}
+      ref={revealRef}
+    >
       <header className="rec__head">
-        <Image className="rec__avatar" src={avatarFor(rec.id)} alt={rec.name} width={96} height={96} unoptimized />
+        <Image
+          className="rec__avatar"
+          src={avatarFor(rec.id)}
+          alt={rec.name}
+          width={96}
+          height={96}
+          unoptimized
+        />
         <div className="rec__who">
           <h3 className="rec__name">{rec.name}</h3>
-          <p className="rec__role" title={rec.role}>{rec.role}</p>
+          <p className="rec__role" title={rec.role}>
+            {rec.role}
+          </p>
           <p className="rec__rel">{rec.relation}</p>
         </div>
         <LinkedInMark />
       </header>
       <div className="rec__text" ref={text} style={maxHeight ? { maxHeight } : undefined}>
-        {rec.paragraphs.map((p) => <p key={p.slice(0, 32)}>{p}</p>)}
+        {rec.paragraphs.map((p) => (
+          <p key={p.slice(0, 32)}>{p}</p>
+        ))}
       </div>
       <footer className="rec__foot">
-        <button className="rec__more" type="button" aria-expanded={open} onClick={toggle}>{open ? 'Show less' : 'Show more'}</button>
-        <a className="rec__link" href={RECOMMENDATIONS_URL} target="_blank" rel="noopener noreferrer">
-          Read on LinkedIn
-          {' '}
-          <i className="uil uil-arrow-up-right" />
+        <button className="rec__more" type="button" aria-expanded={open} onClick={toggle}>
+          {open ? 'Show less' : 'Show more'}
+        </button>
+        <a
+          className="rec__link"
+          href={RECOMMENDATIONS_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Read on LinkedIn <i className="uil uil-arrow-up-right" />
         </a>
       </footer>
     </article>

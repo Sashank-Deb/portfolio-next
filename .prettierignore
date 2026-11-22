@@ -1,0 +1,8 @@
+.next
+out
+coverage
+node_modules
+public
+package-lock.json
+# Ported byte-for-byte from the static site; kept verbatim so it stays diffable against it.
+src/app/globals.css

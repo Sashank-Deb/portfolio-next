@@ -4,16 +4,33 @@ import { Tabs } from './Tabs';
 
 const TABS = [
   { id: 'work', label: 'Work', icon: 'uil-briefcase-alt', panel: <p>Work panel</p> },
-  { id: 'education', label: 'Education', icon: 'uil-graduation-cap', panel: <p>Education panel</p> },
-  { id: 'achievements', label: 'Achievements', icon: 'uil-trophy', panel: <p>Achievements panel</p> },
+  {
+    id: 'education',
+    label: 'Education',
+    icon: 'uil-graduation-cap',
+    panel: <p>Education panel</p>,
+  },
+  {
+    id: 'achievements',
+    label: 'Achievements',
+    icon: 'uil-trophy',
+    panel: <p>Achievements panel</p>,
+  },
 ];
 
 describe('Tabs', () => {
   beforeEach(() => {
-    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', { configurable: true, get() { return 100; } });
+    Object.defineProperty(HTMLElement.prototype, 'offsetWidth', {
+      configurable: true,
+      get() {
+        return 100;
+      },
+    });
     Object.defineProperty(HTMLElement.prototype, 'offsetLeft', {
       configurable: true,
-      get(this: HTMLElement) { return this.id === 'tab-education' ? 120 : 0; },
+      get(this: HTMLElement) {
+        return this.id === 'tab-education' ? 120 : 0;
+      },
     });
   });
 

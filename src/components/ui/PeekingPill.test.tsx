@@ -3,23 +3,32 @@ import { setMediaQuery } from '@/test/browser-mocks';
 import { PeekingPill } from './PeekingPill';
 
 const pill = () => screen.getByRole('link', { name: 'Email Sashank' });
-const tick = (ms: number) => act(() => { jest.advanceTimersByTime(ms); });
+const tick = (ms: number) =>
+  act(() => {
+    jest.advanceTimersByTime(ms);
+  });
 
 const onScreen = (visible: boolean) => {
-  jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue(
-    { top: visible ? 100 : 5000, bottom: visible ? 150 : 5050 } as DOMRect,
-  );
+  jest
+    .spyOn(HTMLElement.prototype, 'getBoundingClientRect')
+    .mockReturnValue({ top: visible ? 100 : 5000, bottom: visible ? 150 : 5050 } as DOMRect);
 };
 
-const renderNav = () => render(<PeekingPill className="pill--nav" href="mailto:a@b.c" label="Contact" avatarSize={36} />);
+const renderNav = () =>
+  render(<PeekingPill className="pill--nav" href="mailto:a@b.c" label="Contact" avatarSize={36} />);
 
 describe('PeekingPill', () => {
   beforeEach(() => {
     jest.useFakeTimers();
-    Object.defineProperty(HTMLElement.prototype, 'offsetParent', { configurable: true, get: () => document.body });
+    Object.defineProperty(HTMLElement.prototype, 'offsetParent', {
+      configurable: true,
+      get: () => document.body,
+    });
     onScreen(true);
   });
-  afterEach(() => { jest.useRealTimers(); });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('renders the contact pill', () => {
     renderNav();
@@ -73,7 +82,16 @@ describe('PeekingPill', () => {
 
   it('only peeks while it is on screen', () => {
     onScreen(false);
-    render(<PeekingPill className="pill--lg" href="mailto:a@b.c" label="Send me an email" avatarSize={44} arrow firstPeekMs={4500} />);
+    render(
+      <PeekingPill
+        className="pill--lg"
+        href="mailto:a@b.c"
+        label="Send me an email"
+        avatarSize={44}
+        arrow
+        firstPeekMs={4500}
+      />,
+    );
     tick(10000);
     expect(pill()).not.toHaveClass('is-peek');
     onScreen(true);
@@ -82,7 +100,15 @@ describe('PeekingPill', () => {
   });
 
   it('can start later so two pills take turns', () => {
-    render(<PeekingPill className="pill--lg" href="mailto:a@b.c" label="Send me an email" avatarSize={44} firstPeekMs={4500} />);
+    render(
+      <PeekingPill
+        className="pill--lg"
+        href="mailto:a@b.c"
+        label="Send me an email"
+        avatarSize={44}
+        firstPeekMs={4500}
+      />,
+    );
     tick(4499);
     expect(pill()).not.toHaveClass('is-peek');
     tick(1);

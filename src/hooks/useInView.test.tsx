@@ -4,7 +4,11 @@ import { useInView } from './useInView';
 
 function Probe({ once = false }: { once?: boolean }) {
   const [ref, inView] = useInView<HTMLDivElement>({ threshold: 0.35 }, once);
-  return <div ref={ref} data-testid="probe">{inView ? 'in' : 'out'}</div>;
+  return (
+    <div ref={ref} data-testid="probe">
+      {inView ? 'in' : 'out'}
+    </div>
+  );
 }
 
 describe('useInView', () => {

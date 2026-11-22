@@ -19,8 +19,13 @@ describe('Footer', () => {
     render(<Footer year={2026} />);
     expect(screen.getByText('Senior Software Engineer')).toHaveClass('sr-only');
     expect(document.querySelector('[data-flap]')).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute('href', 'https://www.instagram.com/sashank_deb/');
-    expect(document.querySelector('.footer__copy')).toHaveTextContent('© 2026 Sashank Deb. All rights reserved.');
+    expect(screen.getByRole('link', { name: 'Instagram' })).toHaveAttribute(
+      'href',
+      'https://www.instagram.com/sashank_deb/',
+    );
+    expect(document.querySelector('.footer__copy')).toHaveTextContent(
+      '© 2026 Sashank Deb. All rights reserved.',
+    );
     expect(document.getElementById('year')).toHaveTextContent('2026');
   });
 });

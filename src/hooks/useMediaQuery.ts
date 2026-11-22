@@ -4,11 +4,14 @@ import { useCallback, useSyncExternalStore } from 'react';
 
 /** Subscribe to a CSS media query. Renders `false` on the server and during hydration. */
 export const useMediaQuery = (query: string): boolean => {
-  const subscribe = useCallback((onChange: () => void) => {
-    const mql = window.matchMedia(query);
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, [query]);
+  const subscribe = useCallback(
+    (onChange: () => void) => {
+      const mql = window.matchMedia(query);
+      mql.addEventListener('change', onChange);
+      return () => mql.removeEventListener('change', onChange);
+    },
+    [query],
+  );
 
   return useSyncExternalStore(
     subscribe,

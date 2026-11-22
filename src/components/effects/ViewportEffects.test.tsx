@@ -6,14 +6,20 @@ function Page() {
   return (
     <>
       <div>
-        <p data-reveal id="a">a</p>
-        <p data-reveal id="b">b</p>
-        <p data-reveal="self" id="self">managed</p>
+        <p data-reveal id="a">
+          a
+        </p>
+        <p data-reveal id="b">
+          b
+        </p>
+        <p data-reveal="self" id="self">
+          managed
+        </p>
       </div>
       <div className="portrait" id="portrait" />
       <ViewportEffects />
     </>
-  )
+  );
 }
 
 const $ = (id: string) => document.getElementById(id) as HTMLElement;

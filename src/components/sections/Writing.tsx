@@ -1,6 +1,4 @@
-import {
-  BLOG_URL, FEATURED_POST, POSTS, POST_COUNT, postUrl,
-} from '@/content/writing';
+import { BLOG_URL, FEATURED_POST, POSTS, POST_COUNT, postUrl } from '@/content/writing';
 import { Dot } from '../ui/Dot';
 import { CountChip, SectionHead } from '../ui/SectionHead';
 
@@ -27,7 +25,13 @@ export function Writing() {
           aside={<CountChip href={BLOG_URL}>{`${POST_COUNT} posts on Hashnode`}</CountChip>}
         />
 
-        <a className="post-feature" href={postUrl(f.slug)} target="_blank" rel="noopener noreferrer" data-reveal>
+        <a
+          className="post-feature"
+          href={postUrl(f.slug)}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-reveal
+        >
           <span className="post-feature__cover" aria-hidden="true">
             <span className="post-feature__kicker">{f.kicker}</span>
             <span className="post-feature__big">
@@ -41,7 +45,11 @@ export function Writing() {
           <span className="post-feature__body">
             <span className="post__chips">
               <span className="post__chip post__chip--hot">Featured</span>
-              {f.chips.map((c) => <span key={c} className="post__chip">{c}</span>)}
+              {f.chips.map((c) => (
+                <span key={c} className="post__chip">
+                  {c}
+                </span>
+              ))}
             </span>
             <span className="post-feature__title">{f.title}</span>
             <span className="post-feature__brief">{f.brief}</span>
@@ -51,7 +59,14 @@ export function Writing() {
 
         <div className="post-grid">
           {POSTS.map((p, i) => (
-            <a key={p.slug} className="post" href={postUrl(p.slug)} target="_blank" rel="noopener noreferrer" data-reveal>
+            <a
+              key={p.slug}
+              className="post"
+              href={postUrl(p.slug)}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-reveal
+            >
               <span className="post__top">
                 <span className="post__num">{String(i + 2).padStart(2, '0')}</span>
                 <span className="post__tag">{p.tag}</span>
@@ -63,12 +78,20 @@ export function Writing() {
           ))}
         </div>
 
-        <a className="blog-banner" href={BLOG_URL} target="_blank" rel="noopener noreferrer" data-reveal>
+        <a
+          className="blog-banner"
+          href={BLOG_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-reveal
+        >
           <span className="blog-banner__text">
             <span className="eyebrow">The blog</span>
             <span className="blog-banner__title">Read everything on Binary Trek</span>
           </span>
-          <span className="blog-banner__go" aria-hidden="true"><i className="uil uil-arrow-right" /></span>
+          <span className="blog-banner__go" aria-hidden="true">
+            <i className="uil uil-arrow-right" />
+          </span>
         </a>
       </div>
     </section>

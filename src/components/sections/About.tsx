@@ -22,13 +22,14 @@ export function About() {
               and led the performance work that took LCP from 3.8${NBSP}s to under 800${NBSP}ms.`}
             </p>
             <p className="about__description">
-              Outside work I build things for fun and in public: the open-source npm library
-              {' '}
-              <a href="https://react-liquid-fill.com/" target="_blank" rel="noopener noreferrer">react-liquid-fill</a>
-              {' '}
-              and the AI mind-mapping app
-              {' '}
-              <a href="https://noodl.tech/" target="_blank" rel="noopener noreferrer">noodl</a>
+              Outside work I build things for fun and in public: the open-source npm library{' '}
+              <a href="https://react-liquid-fill.com/" target="_blank" rel="noopener noreferrer">
+                react-liquid-fill
+              </a>{' '}
+              and the AI mind-mapping app{' '}
+              <a href="https://noodl.tech/" target="_blank" rel="noopener noreferrer">
+                noodl
+              </a>
               . I also happen to have won Bajaj Finserv&apos;s HackRx&apos;21.
             </p>
 

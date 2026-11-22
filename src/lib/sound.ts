@@ -11,12 +11,29 @@ export type SoundName = 'tick' | 'soft' | 'flap' | 'toggle-on' | 'toggle-off';
 
 type ContextCtor = typeof AudioContext;
 
-interface ToneOptions { type?: OscillatorType; from: number; to?: number; dur?: number; vol?: number; at?: number }
-interface NoiseOptions { dur?: number; vol?: number; at?: number; filter?: BiquadFilterType; f0?: number; f1?: number; q?: number }
+interface ToneOptions {
+  type?: OscillatorType;
+  from: number;
+  to?: number;
+  dur?: number;
+  vol?: number;
+  at?: number;
+}
+interface NoiseOptions {
+  dur?: number;
+  vol?: number;
+  at?: number;
+  filter?: BiquadFilterType;
+  f0?: number;
+  f1?: number;
+  q?: number;
+}
 
-const tone = (c: AudioContext, out: AudioNode, {
-  type = 'sine', from, to = from, dur = 0.06, vol = 0.05, at = 0,
-}: ToneOptions) => {
+const tone = (
+  c: AudioContext,
+  out: AudioNode,
+  { type = 'sine', from, to = from, dur = 0.06, vol = 0.05, at = 0 }: ToneOptions,
+) => {
   const t = c.currentTime + at;
   const o = c.createOscillator();
   const g = c.createGain();
@@ -31,9 +48,11 @@ const tone = (c: AudioContext, out: AudioNode, {
   o.stop(t + dur + 0.02);
 };
 
-const noise = (c: AudioContext, out: AudioNode, {
-  dur = 0.2, vol = 0.2, at = 0, filter = 'lowpass', f0 = 2000, f1 = 200, q = 0.7,
-}: NoiseOptions) => {
+const noise = (
+  c: AudioContext,
+  out: AudioNode,
+  { dur = 0.2, vol = 0.2, at = 0, filter = 'lowpass', f0 = 2000, f1 = 200, q = 0.7 }: NoiseOptions,
+) => {
   const t = c.currentTime + at;
   const len = Math.ceil(c.sampleRate * dur);
   const buf = c.createBuffer(1, len, c.sampleRate);
@@ -66,22 +85,36 @@ const SOUNDS: Record<SoundName, (c: AudioContext, out: AudioNode) => void> = {
   flap: (c, out) => {
     const p = 0.85 + Math.random() * 0.3;
     noise(c, out, {
-      dur: 0.016, vol: 0.05, filter: 'bandpass', f0: 2600 * p, f1: 1500 * p, q: 1.4,
+      dur: 0.016,
+      vol: 0.05,
+      filter: 'bandpass',
+      f0: 2600 * p,
+      f1: 1500 * p,
+      q: 1.4,
     });
     tone(c, out, {
-      from: 210 * p, to: 140 * p, dur: 0.025, vol: 0.018,
+      from: 210 * p,
+      to: 140 * p,
+      dur: 0.025,
+      vol: 0.018,
     });
   },
   'toggle-on': (c, out) => {
     tone(c, out, { from: 620, dur: 0.06, vol: 0.04 });
     tone(c, out, {
-      from: 930, dur: 0.08, vol: 0.04, at: 0.06,
+      from: 930,
+      dur: 0.08,
+      vol: 0.04,
+      at: 0.06,
     });
   },
   'toggle-off': (c, out) => {
     tone(c, out, { from: 930, dur: 0.06, vol: 0.04 });
     tone(c, out, {
-      from: 620, dur: 0.08, vol: 0.04, at: 0.06,
+      from: 620,
+      dur: 0.08,
+      vol: 0.04,
+      at: 0.06,
     });
   },
 };
@@ -131,15 +164,19 @@ export const createSoundEngine = (getCtor: () => ContextCtor | undefined): Sound
     },
     subscribe: (listener) => {
       listeners.add(listener);
-      return () => { listeners.delete(listener); };
+      return () => {
+        listeners.delete(listener);
+      };
     },
     context: () => ctx,
   };
 };
 
-const SOFT = '.tabs__btn, .more-btn, .rec__more, #theme-button, .nav__toggle, .nav__close, .feat__card';
-const TICK = '.button, .pill, .nav__link, .link-arrow, .count-chip, .hero__social a, .footer__socials a, .cert, '
-  + '.work, .post, .post-feature, .blog-banner, .cta__link, .cta__copy, .rec__link, .scrollup, .footer__replay';
+const SOFT =
+  '.tabs__btn, .more-btn, .rec__more, #theme-button, .nav__toggle, .nav__close, .feat__card';
+const TICK =
+  '.button, .pill, .nav__link, .link-arrow, .count-chip, .hero__social a, .footer__socials a, .cert, ' +
+  '.work, .post, .post-feature, .blog-banner, .cta__link, .cta__copy, .rec__link, .scrollup, .footer__replay';
 
 /** Which click sound an element should make, if any (the sound toggle plays its own chime). */
 export const soundForElement = (target: Element): SoundName | null => {
@@ -154,6 +191,8 @@ let singleton: SoundEngine | null = null;
 
 /** The site-wide engine, created on first use in the browser. */
 export const getSiteSound = (): SoundEngine => {
-  singleton ??= createSoundEngine(() => window.AudioContext ?? (window as WindowWithWebkit).webkitAudioContext);
+  singleton ??= createSoundEngine(
+    () => window.AudioContext ?? (window as WindowWithWebkit).webkitAudioContext,
+  );
   return singleton;
 };

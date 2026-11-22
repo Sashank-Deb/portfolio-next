@@ -1,25 +1,45 @@
 export const EMAIL = 'sashankdebrgu7@gmail.com';
 export const PHONE = { href: 'tel:+917397441915', label: '+91 73974 41915' } as const;
 export const LOCATION = 'Bengaluru, India';
-export const RESUME = { href: '/assets/pdf/Sashank_Deb_Resume.pdf', filename: 'Sashank_Deb_Resume.pdf' } as const;
+export const RESUME = {
+  href: '/assets/pdf/Sashank_Deb_Resume.pdf',
+  filename: 'Sashank_Deb_Resume.pdf',
+} as const;
 export const HEADSHOT = { src: '/assets/img/headshot.webp', width: 1172, height: 1395 } as const;
 
-export const mailto = (subject: string) => `mailto:${EMAIL}?subject=${encodeURIComponent(subject).replace(/'/g, '%27')}`;
+export const mailto = (subject: string) =>
+  `mailto:${EMAIL}?subject=${encodeURIComponent(subject).replace(/'/g, '%27')}`;
 
-export interface Social { label: string; href: string; icon: string }
+export interface Social {
+  label: string;
+  href: string;
+  icon: string;
+}
 
 export const SOCIALS = {
-  linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/sashank-deb/', icon: 'uil-linkedin' },
+  linkedin: {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/sashank-deb/',
+    icon: 'uil-linkedin',
+  },
   github: { label: 'GitHub', href: 'https://github.com/Sashank-Deb', icon: 'uil-github' },
   behance: { label: 'Behance', href: 'https://www.behance.net/sashankdeb1', icon: 'uil-behance' },
-  instagram: { label: 'Instagram', href: 'https://www.instagram.com/sashank_deb/', icon: 'uil-instagram' },
+  instagram: {
+    label: 'Instagram',
+    href: 'https://www.instagram.com/sashank_deb/',
+    icon: 'uil-instagram',
+  },
   twitter: { label: 'X / Twitter', href: 'https://twitter.com/SashankDeb', icon: 'uil-twitter' },
 } satisfies Record<string, Social>;
 
 export const HERO_SOCIALS: Social[] = [SOCIALS.linkedin, SOCIALS.github, SOCIALS.behance];
 export const FOOTER_SOCIALS: Social[] = Object.values(SOCIALS);
 
-export interface NavItem { id: string; label: string; icon: string }
+export interface NavItem {
+  id: string;
+  label: string;
+  icon: string;
+}
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'about', label: 'About', icon: 'uil-user' },

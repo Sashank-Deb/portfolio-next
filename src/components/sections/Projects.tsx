@@ -10,7 +10,9 @@ export function Projects() {
           index="03"
           label="Projects"
           title="Things I've built recently"
-          aside={<p className="section__lead">Designed, engineered and shipped on my own, end to end.</p>}
+          aside={
+            <p className="section__lead">Designed, engineered and shipped on my own, end to end.</p>
+          }
         />
         <FeatureCards projects={PROJECTS} revealIndex={1} />
       </div>

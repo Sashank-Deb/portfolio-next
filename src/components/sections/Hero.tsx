@@ -11,36 +11,40 @@ export function Hero() {
     <section className="hero" id="home">
       <div className="hero__container container">
         <div className="hero__data">
-          <p className="eyebrow" data-reveal>{`Senior Software Engineer ${NBSP}/${NBSP} Bengaluru, India`}</p>
+          <p
+            className="eyebrow"
+            data-reveal
+          >{`Senior Software Engineer ${NBSP}/${NBSP} Bengaluru, India`}</p>
           <h1 className="hero__title" data-reveal>
             Hi, I&apos;m Sashank
             <Dot />
           </h1>
 
           <p className="home__description" data-reveal>
-            I sit at the intersection of
-            {' '}
-            <strong>product engineering</strong>
-            {' '}
-            and
-            {' '}
-            <strong>technical leadership</strong>
-            . The combination of technical depth paired with genuine care to ensure intuitive user experience is rare,
-            and that&apos;s exactly what I bring to a team.
+            I sit at the intersection of <strong>product engineering</strong> and{' '}
+            <strong>technical leadership</strong>. The combination of technical depth paired with
+            genuine care to ensure intuitive user experience is rare, and that&apos;s exactly what I
+            bring to a team.
           </p>
 
           <div className="hero__buttons" data-reveal>
             <a href="#projects" className="button">
-              See my work
-              {' '}
-              <i className="uil uil-arrow-down" />
+              See my work <i className="uil uil-arrow-down" />
             </a>
             <CvButton ghost />
           </div>
 
           <div className="hero__social" data-reveal>
             {HERO_SOCIALS.map((s) => (
-              <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}><i className={`uil ${s.icon}`} /></a>
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={s.label}
+              >
+                <i className={`uil ${s.icon}`} />
+              </a>
             ))}
           </div>
         </div>

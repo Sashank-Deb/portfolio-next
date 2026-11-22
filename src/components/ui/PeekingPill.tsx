@@ -1,8 +1,6 @@
 'use client';
 
-import {
-  type ComponentProps, useCallback, useEffect, useRef, useState,
-} from 'react';
+import { type ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
 import { useReducedMotion } from '@/hooks/useMediaQuery';
 import { cx } from '@/lib/cx';
 import { Pill } from './Pill';
@@ -27,7 +25,13 @@ const isOnScreen = (el: HTMLElement) => {
  * and picks up again once they leave.
  */
 export function PeekingPill({
-  firstPeekMs = 2000, className, onPointerEnter, onPointerLeave, onFocus, onBlur, ...pill
+  firstPeekMs = 2000,
+  className,
+  onPointerEnter,
+  onPointerLeave,
+  onFocus,
+  onBlur,
+  ...pill
 }: PeekingPillProps) {
   const reduced = useReducedMotion();
   const [peek, setPeek] = useState(false);
@@ -67,10 +71,22 @@ export function PeekingPill({
       {...pill}
       ref={ref}
       className={cx(className, peek && 'is-peek')}
-      onPointerEnter={(e) => { engage('hover', true); onPointerEnter?.(e); }}
-      onPointerLeave={(e) => { engage('hover', false); onPointerLeave?.(e); }}
-      onFocus={(e) => { engage('focus', true); onFocus?.(e); }}
-      onBlur={(e) => { engage('focus', false); onBlur?.(e); }}
+      onPointerEnter={(e) => {
+        engage('hover', true);
+        onPointerEnter?.(e);
+      }}
+      onPointerLeave={(e) => {
+        engage('hover', false);
+        onPointerLeave?.(e);
+      }}
+      onFocus={(e) => {
+        engage('focus', true);
+        onFocus?.(e);
+      }}
+      onBlur={(e) => {
+        engage('focus', false);
+        onBlur?.(e);
+      }}
     />
   );
 }

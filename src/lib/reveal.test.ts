@@ -17,7 +17,8 @@ describe('reveal stagger', () => {
         <div data-reveal id="c"></div>
       </div>`;
     applyRevealStagger(document.querySelectorAll('[data-reveal]'));
-    const d = (id: string) => (document.getElementById(id) as HTMLElement).style.getPropertyValue('--d');
+    const d = (id: string) =>
+      (document.getElementById(id) as HTMLElement).style.getPropertyValue('--d');
     expect(d('a')).toBe('');
     expect(d('b')).toBe('0.08s');
     expect(d('c')).toBe('0.16s');

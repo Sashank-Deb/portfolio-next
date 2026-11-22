@@ -9,9 +9,10 @@ jest.mock('@/lib/sound', () => ({
 }));
 
 const LINES = 'HI|YOU;GO|ON';
-const faces = (board: Element) => Array.from(board.querySelectorAll('.flap'))
-  .map((tile) => tile.querySelector('.flap__half--bottom:not(.flap__leaf) span')?.textContent)
-  .join('');
+const faces = (board: Element) =>
+  Array.from(board.querySelectorAll('.flap'))
+    .map((tile) => tile.querySelector('.flap__half--bottom:not(.flap__leaf) span')?.textContent)
+    .join('');
 
 describe('Flapboard', () => {
   it('builds a hidden grid of blank tiles, four halves each', () => {
@@ -29,7 +30,12 @@ describe('Flapboard', () => {
     setMediaQuery('(prefers-reduced-motion: reduce)', true);
     const { container } = render(<Flapboard lines={LINES} cols={3} />);
     const board = container.querySelector('.flapboard') as HTMLElement;
-    await act(async () => { setIntersecting(board, true); await new Promise((r) => { setTimeout(r, 300); }); });
+    await act(async () => {
+      setIntersecting(board, true);
+      await new Promise((r) => {
+        setTimeout(r, 300);
+      });
+    });
     expect(faces(board)).toBe('HI YOU');
   });
 
@@ -37,10 +43,14 @@ describe('Flapboard', () => {
     jest.useFakeTimers();
     const { container } = render(<Flapboard lines={LINES} cols={3} />);
     const board = container.querySelector('.flapboard') as HTMLElement;
-    await act(async () => { await jest.advanceTimersByTimeAsync(1000); });
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(1000);
+    });
     expect(mockPlay).not.toHaveBeenCalled();
     act(() => setIntersecting(board, true));
-    await act(async () => { await jest.advanceTimersByTimeAsync(3000); });
+    await act(async () => {
+      await jest.advanceTimersByTimeAsync(3000);
+    });
     expect(faces(board)).toBe('HI YOU');
     expect(mockPlay).toHaveBeenCalledWith('flap');
     jest.useRealTimers();

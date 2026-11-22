@@ -4,15 +4,23 @@ import { LoadMore } from './LoadMore';
 
 const css = '.cert-grid:not(.is-expanded) .cert:nth-child(n+4) { display: none; }';
 
-const renderGrid = (count: number) => render(
-  <>
-    <style>{css}</style>
-    <section id="certifications" />
-    <LoadMore id="cert-grid" className="cert-grid" itemSelector=".cert" scrollTargetId="certifications">
-      {Array.from({ length: count }, (_, i) => <a key={i} className="cert" href={`#c${i}`}>{`Cert ${i}`}</a>)}
-    </LoadMore>
-  </>,
-);
+const renderGrid = (count: number) =>
+  render(
+    <>
+      <style>{css}</style>
+      <section id="certifications" />
+      <LoadMore
+        id="cert-grid"
+        className="cert-grid"
+        itemSelector=".cert"
+        scrollTargetId="certifications"
+      >
+        {Array.from({ length: count }, (_, i) => (
+          <a key={i} className="cert" href={`#c${i}`}>{`Cert ${i}`}</a>
+        ))}
+      </LoadMore>
+    </>,
+  );
 
 describe('LoadMore', () => {
   it('counts the items CSS hides at this breakpoint', () => {

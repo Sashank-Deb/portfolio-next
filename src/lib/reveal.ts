@@ -1,7 +1,6 @@
 /** Items that reveal together cascade in 80ms steps, capped so long lists don't drag. */
-export const revealDelay = (index: number): string | undefined => (
-  index > 0 ? `${(Math.min(index, 6) * 8) / 100}s` : undefined
-);
+export const revealDelay = (index: number): string | undefined =>
+  index > 0 ? `${(Math.min(index, 6) * 8) / 100}s` : undefined;
 
 /** Give each [data-reveal] element its stagger delay based on its revealing siblings. */
 export const applyRevealStagger = (elements: Iterable<Element>): void => {
@@ -14,4 +13,7 @@ export const applyRevealStagger = (elements: Iterable<Element>): void => {
   });
 };
 
-export const REVEAL_OPTIONS: IntersectionObserverInit = { rootMargin: '0px 0px -8% 0px', threshold: 0.08 };
+export const REVEAL_OPTIONS: IntersectionObserverInit = {
+  rootMargin: '0px 0px -8% 0px',
+  threshold: 0.08,
+};

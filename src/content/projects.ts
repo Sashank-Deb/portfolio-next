@@ -15,7 +15,8 @@ export const PROJECTS: Project[] = [
     href: 'https://react-liquid-fill.com/',
     image: '/assets/img/projects/liquid.webp',
     alt: 'react-liquid-fill website',
-    description: 'A React component and hook that pours colour into icons, buttons and text with an animated liquid edge on hover, focus or scroll. 2.7 kB, zero dependencies, SSR-safe.',
+    description:
+      'A React component and hook that pours colour into icons, buttons and text with an animated liquid edge on hover, focus or scroll. 2.7 kB, zero dependencies, SSR-safe.',
     chips: ['React', 'TypeScript', 'npm'],
   },
   {
@@ -24,7 +25,8 @@ export const PROJECTS: Project[] = [
     href: 'https://noodl.tech/',
     image: '/assets/img/projects/noodl.webp',
     alt: 'noodl website',
-    description: 'Every note is both an outline and a mind map. AI suggestions on every node and one-prompt map generation; local-first, works offline, and near-zero-cost infrastructure keeps it free.',
+    description:
+      'Every note is both an outline and a mind map. AI suggestions on every node and one-prompt map generation; local-first, works offline, and near-zero-cost infrastructure keeps it free.',
     chips: ['Next.js', 'Zustand', 'IndexedDB', 'Supabase'],
   },
   {
@@ -33,7 +35,8 @@ export const PROJECTS: Project[] = [
     href: 'https://purrcast.vercel.app/',
     image: '/assets/img/projects/purrcast.webp',
     alt: 'PurrCast website',
-    description: 'Turns any article link, document or pasted text into an audio read-along narrated by natural neural voices. Click any sentence to jump there, with a companion Chrome extension.',
+    description:
+      'Turns any article link, document or pasted text into an audio read-along narrated by natural neural voices. Click any sentence to jump there, with a companion Chrome extension.',
     chips: ['Next.js', 'Tailwind', 'Chrome extension'],
   },
   {
@@ -42,7 +45,8 @@ export const PROJECTS: Project[] = [
     href: 'https://credit-q.vercel.app/',
     image: '/assets/img/projects/creditq.webp',
     alt: 'CreditQ website',
-    description: 'Credit card bill reminders for India that group all your bills into one pay day. A calm, offline PWA: no account, no server copy, everything encrypted on the device.',
+    description:
+      'Credit card bill reminders for India that group all your bills into one pay day. A calm, offline PWA: no account, no server copy, everything encrypted on the device.',
     chips: ['Next.js PWA', 'TypeScript', 'SCSS'],
   },
 ];

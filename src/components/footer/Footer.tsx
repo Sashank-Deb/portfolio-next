@@ -20,7 +20,15 @@ export function Footer({ year }: { year: number }) {
 
         <div className="footer__socials">
           {FOOTER_SOCIALS.map((s) => (
-            <a key={s.label} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label}><i className={`uil ${s.icon}`} /></a>
+            <a
+              key={s.label}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={s.label}
+            >
+              <i className={`uil ${s.icon}`} />
+            </a>
           ))}
         </div>
       </div>

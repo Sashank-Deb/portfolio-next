@@ -1,4 +1,8 @@
-export interface Certificate { name: string; kind: 'role' | 'skill'; id: string }
+export interface Certificate {
+  name: string;
+  kind: 'role' | 'skill';
+  id: string;
+}
 
 export const HACKERRANK_PROFILE = 'https://www.hackerrank.com/profile/sashankdebrgu7';
 export const certificateUrl = (id: string) => `https://www.hackerrank.com/certificates/${id}`;

@@ -1,8 +1,6 @@
 'use client';
 
-import {
-  useCallback, useEffect, useLayoutEffect, useRef, useState,
-} from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { INTRO_SEEN_KEY } from '@/lib/intro';
 import { introStore } from '@/lib/intro-store';
 import { writeStorage } from '@/lib/storage';
@@ -17,7 +15,9 @@ const STATIC_MS = 1900;
 const SKIP_MARKER_MS = 700;
 
 declare global {
-  interface Window { __opClaimed?: boolean }
+  interface Window {
+    __opClaimed?: boolean;
+  }
 }
 
 const reducedMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -50,14 +50,20 @@ export function NameIntro() {
   useLayoutEffect(() => {
     if (phase === 'hidden') return undefined;
     root().classList.add('op-covering');
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') done(); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') done();
+    };
     document.addEventListener('keydown', onKey);
     const timer = window.setTimeout(done, phase === 'static' ? STATIC_MS : PLAY_MS);
-    const fade = phase === 'static'
-      ? op.current?.animate([{ opacity: 1 }, { opacity: 0 }], {
-        duration: 400, delay: 1200, easing: 'ease', fill: 'forwards',
-      })
-      : undefined;
+    const fade =
+      phase === 'static'
+        ? op.current?.animate([{ opacity: 1 }, { opacity: 0 }], {
+            duration: 400,
+            delay: 1200,
+            easing: 'ease',
+            fill: 'forwards',
+          })
+        : undefined;
     if (fade) fade.onfinish = done;
     return () => {
       document.removeEventListener('keydown', onKey);
@@ -80,12 +86,22 @@ export function NameIntro() {
       window.__opClaimed = true; // tell the inline safety net the curtain is ours from here
       const fonts = document.fonts?.ready ?? Promise.resolve();
       Promise.all([
-        new Promise((r) => { setTimeout(r, BOOT_BEAT_MS); }),
-        Promise.race([fonts, new Promise((r) => { setTimeout(r, FONT_WAIT_MS); })]),
-      ]).then(() => { if (!cancelled) play(); });
+        new Promise((r) => {
+          setTimeout(r, BOOT_BEAT_MS);
+        }),
+        Promise.race([
+          fonts,
+          new Promise((r) => {
+            setTimeout(r, FONT_WAIT_MS);
+          }),
+        ]),
+      ]).then(() => {
+        if (!cancelled) play();
+      });
     } else {
       introStore.setReplayAvailable(true);
-      if (mode === 'skip') skipTimer = window.setTimeout(() => root().removeAttribute('data-intro'), SKIP_MARKER_MS);
+      if (mode === 'skip')
+        skipTimer = window.setTimeout(() => root().removeAttribute('data-intro'), SKIP_MARKER_MS);
     }
 
     const offReplay = introStore.onReplay(() => {
@@ -109,12 +125,13 @@ export function NameIntro() {
       data-opener
       hidden={phase === 'hidden'}
       onClick={done}
-      onAnimationEnd={(e) => { if (phase === 'play' && e.target === e.currentTarget) done(); }}
+      onAnimationEnd={(e) => {
+        if (phase === 'play' && e.target === e.currentTarget) done();
+      }}
     >
       <div className="op__pre" aria-hidden="true">
         <div className="op__pre-mark">
-          S
-          <span>.</span>
+          S<span>.</span>
         </div>
         <div className="op__pre-band">
           <span className="op__pre-red" />
@@ -124,8 +141,7 @@ export function NameIntro() {
       <div className="op__cut op__s1" aria-hidden="true">
         <div className="op__wipe" />
         <div className="op__mark">
-          S
-          <span>.</span>
+          S<span>.</span>
         </div>
       </div>
       <div className="op__cut op__s2" aria-hidden="true">
@@ -139,9 +155,7 @@ export function NameIntro() {
         </div>
       </div>
       <button className="op__skip" type="button" data-op-skip>
-        Skip intro
-        {' '}
-        <span className="op__esc">· Esc</span>
+        Skip intro <span className="op__esc">· Esc</span>
       </button>
     </div>
   );

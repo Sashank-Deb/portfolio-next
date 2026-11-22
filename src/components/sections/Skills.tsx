@@ -9,7 +9,11 @@ export function Skills() {
         <SectionHead index="05" label="Skills" title="What I work with" />
         <div className="skills__grid">
           {SKILLS.map((g) => (
-            <div key={g.title} className={`skill-card${g.wide ? ' skill-card--wide' : ''}`} data-reveal>
+            <div
+              key={g.title}
+              className={`skill-card${g.wide ? ' skill-card--wide' : ''}`}
+              data-reveal
+            >
               <i className={`uil ${g.icon} skill-card__icon`} />
               <h3>{g.title}</h3>
               <Chips items={g.chips} />

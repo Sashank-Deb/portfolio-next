@@ -11,11 +11,27 @@ export function Certifications() {
           index="04"
           label="Certifications"
           title="Verified on HackerRank"
-          aside={<CountChip href={HACKERRANK_PROFILE}>{`${CERTIFICATES.length} certificates on HackerRank`}</CountChip>}
+          aside={
+            <CountChip
+              href={HACKERRANK_PROFILE}
+            >{`${CERTIFICATES.length} certificates on HackerRank`}</CountChip>
+          }
         />
-        <LoadMore id="cert-grid" className="cert-grid" itemSelector=".cert" scrollTargetId="certifications">
+        <LoadMore
+          id="cert-grid"
+          className="cert-grid"
+          itemSelector=".cert"
+          scrollTargetId="certifications"
+        >
           {CERTIFICATES.map((c) => (
-            <a key={c.id} className={`cert cert--${c.kind}`} href={certificateUrl(c.id)} target="_blank" rel="noopener noreferrer" data-reveal>
+            <a
+              key={c.id}
+              className={`cert cert--${c.kind}`}
+              href={certificateUrl(c.id)}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-reveal
+            >
               <span className="cert__paper">
                 <span className="cert__top">
                   <span>HackerRank</span>
@@ -33,9 +49,7 @@ export function Certifications() {
                 </span>
                 <span className="cert__foot">
                   <span className="cert__view">
-                    View PDF
-                    {' '}
-                    <i className="uil uil-arrow-up-right" />
+                    View PDF <i className="uil uil-arrow-up-right" />
                   </span>
                   <span className="cert__tag">{c.kind.toUpperCase()}</span>
                 </span>

@@ -5,7 +5,11 @@ import { NameIntro } from './NameIntro';
 
 const html = document.documentElement;
 const op = () => document.querySelector('[data-opener]') as HTMLElement;
-const settle = async (ms: number) => { await act(async () => { await jest.advanceTimersByTimeAsync(ms); }); };
+const settle = async (ms: number) => {
+  await act(async () => {
+    await jest.advanceTimersByTimeAsync(ms);
+  });
+};
 
 describe('NameIntro', () => {
   beforeEach(() => {
@@ -13,7 +17,9 @@ describe('NameIntro', () => {
     introStore.setReplayAvailable(false);
     delete (window as { __opClaimed?: boolean }).__opClaimed;
   });
-  afterEach(() => { jest.useRealTimers(); });
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('renders the curtain hidden, with the name pieces and a skip button', () => {
     render(<NameIntro />);
@@ -21,7 +27,9 @@ describe('NameIntro', () => {
     expect(op()).not.toBeVisible();
     expect(op()).toHaveTextContent('Sashank');
     expect(op().querySelectorAll('.op__word')[0]).toHaveTextContent('Deb');
-    expect(screen.getByRole('button', { name: /Skip intro/, hidden: true })).toHaveAttribute('data-op-skip');
+    expect(screen.getByRole('button', { name: /Skip intro/, hidden: true })).toHaveAttribute(
+      'data-op-skip',
+    );
   });
 
   it('plays on a first visit and lifts the curtain when it ends', async () => {
