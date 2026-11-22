@@ -103,9 +103,9 @@ describe('PeekingPill', () => {
     document.body.insertAdjacentHTML('beforeend', '<section id="contact"></section>');
     const contact = document.getElementById('contact') as HTMLElement;
     const sectionOnScreen = (visible: boolean) => {
-      jest
-        .spyOn(contact, 'getBoundingClientRect')
-        .mockReturnValue({ top: visible ? 300 : 5000, bottom: visible ? 900 : 5600 } as DOMRect);
+      // An own stub: spyOn would reuse the prototype-wide mock and move the pill too.
+      contact.getBoundingClientRect = () =>
+        ({ top: visible ? 300 : 5000, bottom: visible ? 900 : 5600 }) as DOMRect;
     };
     sectionOnScreen(true);
     render(
