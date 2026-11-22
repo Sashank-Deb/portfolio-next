@@ -13,8 +13,12 @@ function Harness() {
       <NavProvider>
         <NavMenu>
           <ul>
-            <li><NavLink id="about" icon="uil-user" label="About" /></li>
-            <li><NavLink id="skills" icon="uil-file-alt" label="Skills" /></li>
+            <li>
+              <NavLink id="about" icon="uil-user" label="About" />
+            </li>
+            <li>
+              <NavLink id="skills" icon="uil-file-alt" label="Skills" />
+            </li>
           </ul>
           <NavClose />
         </NavMenu>

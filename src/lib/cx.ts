@@ -1,2 +1,3 @@
 /** Join class names, skipping falsy entries. */
-export const cx = (...names: (string | false | null | undefined)[]): string => names.filter(Boolean).join(' ');
+export const cx = (...names: (string | false | null | undefined)[]): string =>
+  names.filter(Boolean).join(' ');

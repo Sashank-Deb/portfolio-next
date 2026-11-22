@@ -8,7 +8,10 @@ const scrollTo = (y: number) => {
 
 describe('useScrolledPast', () => {
   beforeEach(() => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => { cb(0); return 0; });
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      cb(0);
+      return 0;
+    });
     Object.defineProperty(window, 'scrollY', { configurable: true, value: 0 });
   });
 
@@ -29,9 +32,16 @@ describe('useScrolledPast', () => {
 
   it('throttles scroll work to one read per animation frame', () => {
     const frames: FrameRequestCallback[] = [];
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => { frames.push(cb); return frames.length; });
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => {
+      frames.push(cb);
+      return frames.length;
+    });
     renderHook(() => useScrolledPast(12));
-    act(() => { scrollTo(20); scrollTo(30); scrollTo(40); });
+    act(() => {
+      scrollTo(20);
+      scrollTo(30);
+      scrollTo(40);
+    });
     expect(frames).toHaveLength(1);
   });
 });

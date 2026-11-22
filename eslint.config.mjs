@@ -36,7 +36,10 @@ export default [
   },
   {
     name: 'project/next-special-files',
-    files: ['src/app/**/{page,layout,not-found,error,opengraph-image,icon}.tsx', '*.config.{ts,mjs}'],
+    files: [
+      'src/app/**/{page,layout,not-found,error,opengraph-image,icon}.tsx',
+      '*.config.{ts,mjs}',
+    ],
     rules: { 'import-x/no-default-export': 'off' },
   },
   {

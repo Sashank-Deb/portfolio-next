@@ -1,7 +1,14 @@
 'use client';
 
 import {
-  type ReactNode, type RefObject, createContext, use, useEffect, useMemo, useRef, useState,
+  type ReactNode,
+  type RefObject,
+  createContext,
+  use,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
 } from 'react';
 
 interface NavState {
@@ -31,9 +38,12 @@ export function NavProvider({ children }: { children: ReactNode }) {
     if (!open) return undefined;
     const onClick = (e: MouseEvent) => {
       const target = e.target as Node;
-      if (!menuRef.current?.contains(target) && !toggleRef.current?.contains(target)) setOpen(false);
+      if (!menuRef.current?.contains(target) && !toggleRef.current?.contains(target))
+        setOpen(false);
     };
-    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpen(false); };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false);
+    };
     document.addEventListener('click', onClick);
     document.addEventListener('keydown', onKey);
     return () => {
@@ -43,16 +53,28 @@ export function NavProvider({ children }: { children: ReactNode }) {
   }, [open]);
 
   useEffect(() => {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => { if (entry.isIntersecting) setActiveId(entry.target.id); });
-    }, { rootMargin: '-45% 0px -50% 0px' });
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActiveId(entry.target.id);
+        });
+      },
+      { rootMargin: '-45% 0px -50% 0px' },
+    );
     document.querySelectorAll('section[id]').forEach((s) => io.observe(s));
     return () => io.disconnect();
   }, []);
 
-  const value = useMemo(() => ({
-    open, setOpen, activeId, menuRef, toggleRef,
-  }), [open, activeId]);
+  const value = useMemo(
+    () => ({
+      open,
+      setOpen,
+      activeId,
+      menuRef,
+      toggleRef,
+    }),
+    [open, activeId],
+  );
 
   return <NavContext value={value}>{children}</NavContext>;
 }

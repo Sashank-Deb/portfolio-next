@@ -1,8 +1,6 @@
 'use client';
 
-import {
-  type RefCallback, useCallback, useEffect, useRef, useState,
-} from 'react';
+import { type RefCallback, useCallback, useEffect, useRef, useState } from 'react';
 
 /**
  * Observe an element with IntersectionObserver.

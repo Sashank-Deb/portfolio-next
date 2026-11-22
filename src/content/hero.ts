@@ -1,4 +1,8 @@
-export interface Stat { value: string; arrowTo?: string; label: string }
+export interface Stat {
+  value: string;
+  arrowTo?: string;
+  label: string;
+}
 
 export const STATS: Stat[] = [
   { value: '3.8s', arrowTo: '<0.8s', label: 'LCP, after the performance work I led' },

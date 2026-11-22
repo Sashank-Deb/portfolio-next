@@ -8,7 +8,13 @@ import { toggleTheme } from '@/lib/theme';
  */
 export function ThemeToggle() {
   return (
-    <button className="icon-btn" id="theme-button" type="button" aria-label="Toggle dark mode" onClick={() => toggleTheme(document.documentElement)}>
+    <button
+      className="icon-btn"
+      id="theme-button"
+      type="button"
+      aria-label="Toggle dark mode"
+      onClick={() => toggleTheme(document.documentElement)}
+    >
       <i className="uil uil-moon theme-icon theme-icon--moon" />
       <i className="uil uil-sun theme-icon theme-icon--sun" />
     </button>

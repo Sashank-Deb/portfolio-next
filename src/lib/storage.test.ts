@@ -15,8 +15,12 @@ describe('storage', () => {
   });
 
   it('never throws when storage is blocked (private mode, sandboxed iframes)', () => {
-    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => { throw new Error('denied'); });
-    jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => { throw new Error('denied'); });
+    jest.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
+      throw new Error('denied');
+    });
+    jest.spyOn(Storage.prototype, 'setItem').mockImplementation(() => {
+      throw new Error('denied');
+    });
     expect(readStorage('local', 'a')).toBeNull();
     expect(() => writeStorage('session', 'a', '1')).not.toThrow();
   });

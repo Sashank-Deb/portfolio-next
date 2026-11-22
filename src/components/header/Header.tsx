@@ -23,7 +23,9 @@ export function Header() {
           <NavMenu>
             <ul className="nav__list">
               {NAV_ITEMS.map((item) => (
-                <li key={item.id}><NavLink id={item.id} label={item.label} icon={item.icon} /></li>
+                <li key={item.id}>
+                  <NavLink id={item.id} label={item.label} icon={item.icon} />
+                </li>
               ))}
             </ul>
             <NavClose />
@@ -32,7 +34,12 @@ export function Header() {
           <div className="nav__actions">
             <SoundToggle />
             <ThemeToggle />
-            <PeekingPill className="pill--nav" href={mailto('Hi Sashank')} label="Contact" avatarSize={36} />
+            <PeekingPill
+              className="pill--nav"
+              href={mailto('Hi Sashank')}
+              label="Contact"
+              avatarSize={36}
+            />
             <NavToggle />
           </div>
         </NavProvider>

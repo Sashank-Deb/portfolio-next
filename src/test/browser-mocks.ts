@@ -19,20 +19,31 @@ export class MockIntersectionObserver implements IntersectionObserver {
 
   readonly targets = new Set<Element>();
 
-  constructor(private readonly callback: IOCallback, options: IntersectionObserverInit = {}) {
+  constructor(
+    private readonly callback: IOCallback,
+    options: IntersectionObserverInit = {},
+  ) {
     this.rootMargin = options.rootMargin ?? '0px';
     const { threshold } = options;
     this.thresholds = Array.isArray(threshold) ? threshold : [threshold ?? 0];
     MockIntersectionObserver.instances.push(this);
   }
 
-  observe(target: Element) { this.targets.add(target); }
+  observe(target: Element) {
+    this.targets.add(target);
+  }
 
-  unobserve(target: Element) { this.targets.delete(target); }
+  unobserve(target: Element) {
+    this.targets.delete(target);
+  }
 
-  disconnect() { this.targets.clear(); }
+  disconnect() {
+    this.targets.clear();
+  }
 
-  takeRecords(): IntersectionObserverEntry[] { return []; }
+  takeRecords(): IntersectionObserverEntry[] {
+    return [];
+  }
 
   /** Fire the observer callback for one of its targets. */
   emit(target: Element, isIntersecting: boolean) {
@@ -69,7 +80,9 @@ const createMediaQueryList = (query: string) => {
   const listeners = new Set<(e: MediaQueryListEvent) => void>();
   const mql = {
     media: query,
-    get matches() { return mediaState.get(query) ?? false; },
+    get matches() {
+      return mediaState.get(query) ?? false;
+    },
     onchange: null,
     addEventListener: (_: string, cb: (e: MediaQueryListEvent) => void) => listeners.add(cb),
     removeEventListener: (_: string, cb: (e: MediaQueryListEvent) => void) => listeners.delete(cb),
@@ -87,14 +100,20 @@ const createMediaQueryList = (query: string) => {
   return mql as unknown as MediaQueryList;
 };
 
-export const mockAnimate = jest.fn((): Animation => ({
-  finished: Promise.resolve(),
-  cancel: jest.fn(),
-  onfinish: null,
-} as unknown as Animation));
+export const mockAnimate = jest.fn(
+  (): Animation =>
+    ({
+      finished: Promise.resolve(),
+      cancel: jest.fn(),
+      onfinish: null,
+    }) as unknown as Animation,
+);
 
 export const installBrowserMocks = () => {
-  Object.defineProperty(window, 'IntersectionObserver', { writable: true, value: MockIntersectionObserver });
+  Object.defineProperty(window, 'IntersectionObserver', {
+    writable: true,
+    value: MockIntersectionObserver,
+  });
   Object.defineProperty(window, 'matchMedia', { writable: true, value: createMediaQueryList });
   Element.prototype.animate = mockAnimate as unknown as Element['animate'];
   Element.prototype.getAnimations = () => [];

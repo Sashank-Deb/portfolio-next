@@ -21,7 +21,9 @@ export const createIntroStore = (): IntroStore => {
     getSnapshot: () => replayAvailable,
     subscribe: (listener) => {
       listeners.add(listener);
-      return () => { listeners.delete(listener); };
+      return () => {
+        listeners.delete(listener);
+      };
     },
     setReplayAvailable: (available) => {
       if (available === replayAvailable) return;
@@ -31,7 +33,9 @@ export const createIntroStore = (): IntroStore => {
     requestReplay: () => replayListeners.forEach((l) => l()),
     onReplay: (listener) => {
       replayListeners.add(listener);
-      return () => { replayListeners.delete(listener); };
+      return () => {
+        replayListeners.delete(listener);
+      };
     },
   };
 };

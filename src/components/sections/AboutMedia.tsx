@@ -1,17 +1,16 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  type MouseEvent, useEffect, useRef, useState,
-} from 'react';
+import { type MouseEvent, useEffect, useRef, useState } from 'react';
 import { useMediaQuery, useReducedMotion } from '@/hooks/useMediaQuery';
 import { useReveal } from '@/hooks/useReveal';
 import { cx } from '@/lib/cx';
 import { mergeRefs } from '@/lib/refs';
 
 const TILT_DEG = 12;
-const CURSORS = ['meme-pop-cat-cursor.png', 'meme-pop-cat-pointer.png']
-  .map((file) => `url("/assets/img/${file}") 32 32, pointer`);
+const CURSORS = ['meme-pop-cat-cursor.png', 'meme-pop-cat-pointer.png'].map(
+  (file) => `url("/assets/img/${file}") 32 32, pointer`,
+);
 
 /** Portrait that plays a short clip on click, with a cursor-following tilt and a pop-cat cursor. */
 export function AboutMedia() {
@@ -24,10 +23,13 @@ export function AboutMedia() {
   const tilt = hover && !reduced;
   const [revealRef, revealed, revealStyle] = useReveal<HTMLDivElement>();
 
-  useEffect(() => () => {
-    clearInterval(cursor.current.timer);
-    clearTimeout(cursor.current.idle);
-  }, []);
+  useEffect(
+    () => () => {
+      clearInterval(cursor.current.timer);
+      clearTimeout(cursor.current.idle);
+    },
+    [],
+  );
 
   const stop = () => {
     const v = video.current;
@@ -61,7 +63,7 @@ export function AboutMedia() {
     if (!c.timer) {
       el.style.cursor = CURSORS[0] as string;
       c.timer = window.setInterval(() => {
-        c.frame ^= 1;  
+        c.frame ^= 1;
         el.style.cursor = CURSORS[c.frame] as string;
       }, 150);
     }
@@ -93,14 +95,28 @@ export function AboutMedia() {
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
     >
-      <Image src="/assets/img/about.webp" alt="Sashank Deb" className="about__img" id="about-img" width={825} height={1600} sizes="340px" />
+      <Image
+        src="/assets/img/about.webp"
+        alt="Sashank Deb"
+        className="about__img"
+        id="about-img"
+        width={825}
+        height={1600}
+        sizes="340px"
+      />
       {/* Decorative clip with no speech, so there is nothing to caption. */}
       {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
-      <video ref={video} id="about-video" className="about__video" src="/assets/img/About.mp4" preload="none" playsInline onEnded={stop} />
+      <video
+        ref={video}
+        id="about-video"
+        className="about__video"
+        src="/assets/img/About.mp4"
+        preload="none"
+        playsInline
+        onEnded={stop}
+      />
       <span className="about__hint">
-        <i className="uil uil-play" />
-        {' '}
-        Play
+        <i className="uil uil-play" /> Play
       </span>
     </div>
   );

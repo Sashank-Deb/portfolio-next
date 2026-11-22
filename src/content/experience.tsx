@@ -25,11 +25,9 @@ export const WORK: Entry[] = [
       `Led a feature-flagged PIN-to-password migration on React and Azure AD B2C, cutting auth tickets by 30%. Added OTP rate limiting, origin validation and a 300${NBSP}s code expiry, saving an estimated $500–$2K in monthly abuse.`,
       'Launched an AI-driven SSO onboarding flow that completes setup in under 3 hours; integrated OpenReplay and Datadog for production tracing.',
       <>
-        Engineered Workflow Automation tooling with a custom serialized-state
-        {' '}
-        <code>useUndoRedo</code>
-        {' '}
-        React hook, enabling a drag-and-drop tree UI that manages 500+ complex rule sets.
+        Engineered Workflow Automation tooling with a custom serialized-state{' '}
+        <code>useUndoRedo</code> React hook, enabling a drag-and-drop tree UI that manages 500+
+        complex rule sets.
       </>,
       'Automated release regression testing with end-to-end suites, saving 2 hours of manual QA per release; shipped a HIPAA-compliant audit trail with full Jest and Storybook coverage.',
       'Migrated the website from WordPress to Next.js SSR with a headless CMS, lifting patient sign-ups by 15%.',
@@ -86,11 +84,23 @@ export const EDUCATION: Entry[] = [
     points: [
       'Web GIS Technology, Indian Space Research Organisation (2021)',
       <>
-        <a href={credly('9b67ffcc-6c13-40a4-a695-2ef6a1d4fb23')} target="_blank" rel="noopener noreferrer">Machine Learning with Python, IBM</a>
+        <a
+          href={credly('9b67ffcc-6c13-40a4-a695-2ef6a1d4fb23')}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Machine Learning with Python, IBM
+        </a>
         {' (2020)'}
       </>,
       <>
-        <a href={credly('79180d67-c44c-4dfb-8a78-d2234fe3c696')} target="_blank" rel="noopener noreferrer">Node-RED: basics to bots, IBM</a>
+        <a
+          href={credly('79180d67-c44c-4dfb-8a78-d2234fe3c696')}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Node-RED: basics to bots, IBM
+        </a>
         {' (2020)'}
       </>,
     ],
@@ -99,15 +109,28 @@ export const EDUCATION: Entry[] = [
 
 export const ACHIEVEMENTS: Entry[] = [
   {
-    date: 'Jul 2021', place: 'Bajaj Finserv', role: "Winner, HackRx'21", company: 'National healthcare hackathon by Bajaj Finserv, across 2.5k participants',
+    date: 'Jul 2021',
+    place: 'Bajaj Finserv',
+    role: "Winner, HackRx'21",
+    company: 'National healthcare hackathon by Bajaj Finserv, across 2.5k participants',
   },
   {
-    date: 'Jul 2020', place: 'IIT Madras', role: 'Student Leader of the Year 2020', company: 'Awarded by IIT Madras alumni for managing and building systems for the student chapter',
+    date: 'Jul 2020',
+    place: 'IIT Madras',
+    role: 'Student Leader of the Year 2020',
+    company:
+      'Awarded by IIT Madras alumni for managing and building systems for the student chapter',
   },
   {
-    date: 'Nov 2019', place: 'IIT Madras', role: 'Winner, Tinkathon', company: 'DIY hackathon by the IIT Madras Alumni Center',
+    date: 'Nov 2019',
+    place: 'IIT Madras',
+    role: 'Winner, Tinkathon',
+    company: 'DIY hackathon by the IIT Madras Alumni Center',
   },
   {
-    date: '2021', place: 'Open source', role: 'Rasa contributor', company: 'Contributed to the Rasa conversational AI framework',
+    date: '2021',
+    place: 'Open source',
+    role: 'Rasa contributor',
+    company: 'Contributed to the Rasa conversational AI framework',
   },
 ];

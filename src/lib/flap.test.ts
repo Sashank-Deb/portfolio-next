@@ -1,6 +1,4 @@
-import {
-  FLAP_CHARS, parseScreens, randomGlyph, screenChars, spinSteps, tileDelay,
-} from './flap';
+import { FLAP_CHARS, parseScreens, randomGlyph, screenChars, spinSteps, tileDelay } from './flap';
 
 describe('split-flap helpers', () => {
   it('parses screens separated by ";" and rows by "|"', () => {
@@ -11,7 +9,16 @@ describe('split-flap helpers', () => {
   });
 
   it('lays a screen out row by row, padded and clipped to the column count', () => {
-    expect(screenChars(['ab', 'TOO LONG!'], 2, 4)).toEqual(['A', 'B', ' ', ' ', 'T', 'O', 'O', ' ']);
+    expect(screenChars(['ab', 'TOO LONG!'], 2, 4)).toEqual([
+      'A',
+      'B',
+      ' ',
+      ' ',
+      'T',
+      'O',
+      'O',
+      ' ',
+    ]);
   });
 
   it('fills missing rows with blanks', () => {

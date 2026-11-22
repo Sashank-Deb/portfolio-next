@@ -1,12 +1,26 @@
 'use client';
 
 import {
-  type KeyboardEvent, type ReactNode, useCallback, useEffect, useLayoutEffect, useRef, useState,
+  type KeyboardEvent,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
 } from 'react';
 
-export interface TabItem { id: string; label: string; icon: string; panel: ReactNode }
+export interface TabItem {
+  id: string;
+  label: string;
+  icon: string;
+  panel: ReactNode;
+}
 
-interface Indicator { width: number; x: number }
+interface Indicator {
+  width: number;
+  x: number;
+}
 
 /** Accessible tabs with a sliding indicator. Panels are server-rendered and passed in. */
 export function Tabs({ label, tabs }: { label: string; tabs: TabItem[] }) {
@@ -40,7 +54,9 @@ export function Tabs({ label, tabs }: { label: string; tabs: TabItem[] }) {
         {tabs.map((tab, i) => (
           <button
             key={tab.id}
-            ref={(el) => { buttons.current[i] = el; }}
+            ref={(el) => {
+              buttons.current[i] = el;
+            }}
             className={`tabs__btn${i === active ? ' is-active' : ''}`}
             role="tab"
             type="button"
@@ -51,15 +67,17 @@ export function Tabs({ label, tabs }: { label: string; tabs: TabItem[] }) {
             onClick={() => setActive(i)}
             onKeyDown={(e) => onKeyDown(e, i)}
           >
-            <i className={`uil ${tab.icon}`} />
-            {' '}
-            {tab.label}
+            <i className={`uil ${tab.icon}`} /> {tab.label}
           </button>
         ))}
         <span
           className="tabs__indicator"
           aria-hidden="true"
-          style={indicator ? { width: `${indicator.width}px`, transform: `translateX(${indicator.x}px)` } : undefined}
+          style={
+            indicator
+              ? { width: `${indicator.width}px`, transform: `translateX(${indicator.x}px)` }
+              : undefined
+          }
         />
       </div>
 

@@ -11,9 +11,7 @@ interface SectionHeadProps {
 
 const NBSP = ' ';
 
-export function SectionHead({
-  index, label, title, aside,
-}: SectionHeadProps) {
+export function SectionHead({ index, label, title, aside }: SectionHeadProps) {
   const eyebrow = <p className="eyebrow">{`${index} ${NBSP}/${NBSP} ${label}`}</p>;
   const heading = (
     <h2 className="section__title">
@@ -43,9 +41,7 @@ export function SectionHead({
 export function CountChip({ href, children }: { href: string; children: ReactNode }) {
   return (
     <a className="count-chip" href={href} target="_blank" rel="noopener noreferrer">
-      {children}
-      {' '}
-      <i className="uil uil-arrow-up-right" />
+      {children} <i className="uil uil-arrow-up-right" />
     </a>
   );
 }

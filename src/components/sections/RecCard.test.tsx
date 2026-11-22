@@ -9,16 +9,19 @@ const rec = RECOMMENDATIONS[0]!;
 const withTextHeight = (height: number) => {
   Object.defineProperty(HTMLElement.prototype, 'scrollHeight', {
     configurable: true,
-    get(this: HTMLElement) { return this.classList.contains('rec__text') ? height : 0; },
+    get(this: HTMLElement) {
+      return this.classList.contains('rec__text') ? height : 0;
+    },
   });
 };
 
-const renderCard = () => render(
-  <>
-    <style>{'.rec__text { line-height: 20px; }'}</style>
-    <RecCard rec={rec} revealIndex={2} />
-  </>,
-);
+const renderCard = () =>
+  render(
+    <>
+      <style>{'.rec__text { line-height: 20px; }'}</style>
+      <RecCard rec={rec} revealIndex={2} />
+    </>,
+  );
 
 describe('RecCard', () => {
   it('shows who wrote it and links to LinkedIn', () => {
@@ -28,7 +31,10 @@ describe('RecCard', () => {
     expect(screen.getByRole('img', { name: rec.name })).toHaveClass('rec__avatar');
     expect(screen.getByText(rec.role)).toHaveAttribute('title', rec.role);
     expect(screen.getByText(rec.relation)).toHaveClass('rec__rel');
-    expect(screen.getByRole('link', { name: /Read on LinkedIn/ })).toHaveAttribute('target', '_blank');
+    expect(screen.getByRole('link', { name: /Read on LinkedIn/ })).toHaveAttribute(
+      'target',
+      '_blank',
+    );
     expect(screen.getByRole('article').style.getPropertyValue('--d')).toBe('0.16s');
   });
 

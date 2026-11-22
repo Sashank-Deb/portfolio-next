@@ -16,7 +16,10 @@ describe('FeatureCards (expanding project cards)', () => {
     expect(card('react-liquid-fill')).toHaveClass('feat__card', 'is-active');
     expect(card('noodl')).not.toHaveClass('is-active');
     expect(screen.getByRole('img', { name: 'noodl website' })).toBeInTheDocument();
-    expect(screen.getAllByRole('link', { name: /Visit site/ })[2]).toHaveAttribute('href', 'https://purrcast.vercel.app/');
+    expect(screen.getAllByRole('link', { name: /Visit site/ })[2]).toHaveAttribute(
+      'href',
+      'https://purrcast.vercel.app/',
+    );
     expect(feat()).toHaveAttribute('data-reveal', 'self');
     expect(feat().style.getPropertyValue('--d')).toBe('0.08s');
   });
@@ -28,13 +31,19 @@ describe('FeatureCards (expanding project cards)', () => {
     expect(card('CreditQ')).toHaveClass('is-active');
     expect(card('react-liquid-fill')).not.toHaveClass('is-active');
     fireEvent.mouseEnter(card('noodl'));
-    act(() => { jest.advanceTimersByTime(119); });
+    act(() => {
+      jest.advanceTimersByTime(119);
+    });
     expect(card('noodl')).not.toHaveClass('is-active');
-    act(() => { jest.advanceTimersByTime(1); });
+    act(() => {
+      jest.advanceTimersByTime(1);
+    });
     expect(card('noodl')).toHaveClass('is-active');
     fireEvent.mouseEnter(card('PurrCast'));
     fireEvent.mouseLeave(card('PurrCast'));
-    act(() => { jest.advanceTimersByTime(500); });
+    act(() => {
+      jest.advanceTimersByTime(500);
+    });
     expect(card('PurrCast')).not.toHaveClass('is-active');
     jest.useRealTimers();
   });

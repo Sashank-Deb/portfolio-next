@@ -37,11 +37,16 @@ class FakeAudioContext {
 
   destination = {};
 
-  resume = jest.fn(() => { this.state = 'running'; return Promise.resolve(); });
+  resume = jest.fn(() => {
+    this.state = 'running';
+    return Promise.resolve();
+  });
 
   oscillators: FakeNode[] = [];
 
-  constructor() { FakeAudioContext.created += 1; }
+  constructor() {
+    FakeAudioContext.created += 1;
+  }
 
   createGain = () => new FakeNode();
 
@@ -58,12 +63,13 @@ class FakeAudioContext {
   };
 }
 
-const engine = (Ctor: unknown = FakeAudioContext) => createSoundEngine(
-  () => Ctor as typeof AudioContext | undefined,
-);
+const engine = (Ctor: unknown = FakeAudioContext) =>
+  createSoundEngine(() => Ctor as typeof AudioContext | undefined);
 
 describe('sound engine', () => {
-  beforeEach(() => { FakeAudioContext.created = 0; });
+  beforeEach(() => {
+    FakeAudioContext.created = 0;
+  });
 
   it('is on by default and lazily creates one AudioContext', () => {
     const s = engine();
@@ -121,16 +127,22 @@ describe('soundForElement', () => {
 
   it('uses the soft thock for toggles, tabs and cards', () => {
     expect(soundForElement(el('<button class="tabs__btn" data-t>Work</button>'))).toBe('soft');
-    expect(soundForElement(el('<article class="feat__card"><span data-t></span></article>'))).toBe('soft');
+    expect(soundForElement(el('<article class="feat__card"><span data-t></span></article>'))).toBe(
+      'soft',
+    );
   });
 
   it('uses the tick for buttons and links', () => {
     expect(soundForElement(el('<a class="button" data-t>Go</a>'))).toBe('tick');
-    expect(soundForElement(el('<div class="footer__socials"><a data-t><i></i></a></div>'))).toBe('tick');
+    expect(soundForElement(el('<div class="footer__socials"><a data-t><i></i></a></div>'))).toBe(
+      'tick',
+    );
   });
 
   it('leaves the sound toggle itself and plain elements alone', () => {
-    expect(soundForElement(el('<button class="icon-btn" id="sound-button" data-t></button>'))).toBeNull();
+    expect(
+      soundForElement(el('<button class="icon-btn" id="sound-button" data-t></button>')),
+    ).toBeNull();
     expect(soundForElement(el('<p data-t>text</p>'))).toBeNull();
   });
 });

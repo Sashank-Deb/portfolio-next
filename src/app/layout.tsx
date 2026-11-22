@@ -9,11 +9,15 @@ import { introCriticalCss, introGateScript } from '@/lib/intro';
 import { themeScript } from '@/lib/theme';
 import { dmSans, jost, spaceMono } from './fonts';
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
-  ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : 'http://localhost:3000');
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ??
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : 'http://localhost:3000');
 
 const TITLE = 'Sashank Deb · Senior Software Engineer';
-const SHARE_DESCRIPTION = 'Product engineering and technical leadership. React, Next.js, TypeScript, auth and web performance.';
+const SHARE_DESCRIPTION =
+  'Product engineering and technical leadership. React, Next.js, TypeScript, auth and web performance.';
 const OG_IMAGE = {
   url: '/assets/img/og-banner.jpg',
   type: 'image/jpeg',
@@ -25,7 +29,8 @@ const OG_IMAGE = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: TITLE,
-  description: 'Sashank Deb is a senior software engineer in Bengaluru who sits at the intersection of product engineering and technical leadership. React, Next.js, TypeScript.',
+  description:
+    'Sashank Deb is a senior software engineer in Bengaluru who sits at the intersection of product engineering and technical leadership. React, Next.js, TypeScript.',
   openGraph: {
     title: TITLE,
     description: SHARE_DESCRIPTION,
@@ -59,7 +64,11 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     // The inline scripts set the theme and intro state on <html> before hydration.
-    <html lang="en" className={`${jost.variable} ${dmSans.variable} ${spaceMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${jost.variable} ${dmSans.variable} ${spaceMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Must run before first paint: no theme flash, and the intro curtain is up from frame one. */}
         {/* eslint-disable-next-line react/no-danger */}

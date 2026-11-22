@@ -1,9 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import {
-  type KeyboardEvent, useEffect, useRef, useState,
-} from 'react';
+import { type KeyboardEvent, useEffect, useRef, useState } from 'react';
 import type { Project } from '@/content/projects';
 import { useMediaQuery, useReducedMotion } from '@/hooks/useMediaQuery';
 import { useInView } from '@/hooks/useInView';
@@ -19,7 +17,13 @@ const HOVER_DELAY_MS = 120;
  * auto-advances while the section is on screen, pausing on hover or focus.
  * Below 901px the cards are a plain stacked list.
  */
-export function FeatureCards({ projects, revealIndex = 0 }: { projects: Project[]; revealIndex?: number }) {
+export function FeatureCards({
+  projects,
+  revealIndex = 0,
+}: {
+  projects: Project[];
+  revealIndex?: number;
+}) {
   const wide = useMediaQuery('(min-width: 901px)');
   const reduced = useReducedMotion();
   const [active, setActive] = useState(0);
@@ -58,7 +62,13 @@ export function FeatureCards({ projects, revealIndex = 0 }: { projects: Project[
 
   return (
     <div
-      className={cx('feat', revealed && 'is-in', onScreen && !reduced && 'is-playing', paused && 'is-paused', !nearScreen && 'is-offscreen')}
+      className={cx(
+        'feat',
+        revealed && 'is-in',
+        onScreen && !reduced && 'is-playing',
+        paused && 'is-paused',
+        !nearScreen && 'is-offscreen',
+      )}
       id="feat"
       data-reveal="self"
       style={revealStyle}
@@ -66,7 +76,9 @@ export function FeatureCards({ projects, revealIndex = 0 }: { projects: Project[
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
       onFocus={() => setPaused(true)}
-      onBlur={(e) => { if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPaused(false); }}
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setPaused(false);
+      }}
     >
       <div className="feat__cards">
         {projects.map((p, i) => {
@@ -77,13 +89,17 @@ export function FeatureCards({ projects, revealIndex = 0 }: { projects: Project[
             // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
             <article
               key={p.name}
-              ref={(el) => { cards.current[i] = el; }}
+              ref={(el) => {
+                cards.current[i] = el;
+              }}
               className={`feat__card${on ? ' is-active' : ''}`}
               data-index={i}
               // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
               tabIndex={0}
               aria-label={p.name}
-              onClick={() => { if (wide) open(i); }}
+              onClick={() => {
+                if (wide) open(i);
+              }}
               onMouseEnter={() => {
                 if (!wide) return;
                 clearTimeout(hoverTimer.current);
@@ -101,21 +117,39 @@ export function FeatureCards({ projects, revealIndex = 0 }: { projects: Project[
                 <span
                   key={cycle}
                   className="feat__fill"
-                  onAnimationEnd={() => { if (wide && on) open(active + 1); }}
+                  onAnimationEnd={() => {
+                    if (wide && on) open(active + 1);
+                  }}
                 />
               </div>
               <div className="feat__body">
-                <a className="feat__media" href={p.href} target="_blank" rel="noopener noreferrer" tabIndex={-1}>
-                  <Image src={p.image} alt={p.alt} width={1600} height={1000} sizes="(max-width: 900px) 92vw, 760px" />
+                <a
+                  className="feat__media"
+                  href={p.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabIndex={-1}
+                >
+                  <Image
+                    src={p.image}
+                    alt={p.alt}
+                    width={1600}
+                    height={1000}
+                    sizes="(max-width: 900px) 92vw, 760px"
+                  />
                 </a>
                 <div className="feat__info">
                   <p>{p.description}</p>
                   <div className="feat__foot">
                     <Chips items={p.chips} />
-                    <a className="link-arrow" href={p.href} target="_blank" rel="noopener noreferrer" tabIndex={on || !wide ? 0 : -1}>
-                      Visit site
-                      {' '}
-                      <i className="uil uil-arrow-up-right" />
+                    <a
+                      className="link-arrow"
+                      href={p.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      tabIndex={on || !wide ? 0 : -1}
+                    >
+                      Visit site <i className="uil uil-arrow-up-right" />
                     </a>
                   </div>
                 </div>

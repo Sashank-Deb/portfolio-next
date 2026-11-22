@@ -7,12 +7,11 @@ export type Rng = () => number;
 export const parseScreens = (lines: string): Screen[] => lines.split(';').map((s) => s.split('|'));
 
 /** One character per tile, row-major, upper-cased, each row padded/clipped to `cols`. */
-export const screenChars = (screen: Screen, rows: number, cols: number): string[] => (
+export const screenChars = (screen: Screen, rows: number, cols: number): string[] =>
   Array.from({ length: rows * cols }, (_, k) => {
     const row = (screen[Math.floor(k / cols)] ?? '').padEnd(cols).slice(0, cols);
     return (row[k % cols] ?? ' ').toUpperCase();
-  })
-);
+  });
 
 /** A random glyph for the in-between flips, never one of `exclude`. */
 export const randomGlyph = (rng: Rng, exclude: readonly string[]): string => {

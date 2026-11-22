@@ -13,8 +13,12 @@ describe('ClickSounds', () => {
     render(
       <>
         <ClickSounds />
-        <a className="button" href="#x">Go</a>
-        <button className="tabs__btn" type="button">Tab</button>
+        <a className="button" href="#x">
+          Go
+        </a>
+        <button className="tabs__btn" type="button">
+          Tab
+        </button>
         <p>Plain</p>
       </>,
     );

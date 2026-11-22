@@ -1,10 +1,16 @@
 'use client';
 
+import { type CSSProperties, useEffect, useMemo, useRef } from 'react';
 import {
-  type CSSProperties, useEffect, useMemo, useRef,
-} from 'react';
-import {
-  FIRST_HOLD_MS, FLIP_MS, HOLD_MS, LAND_MS, parseScreens, randomGlyph, screenChars, spinSteps, tileDelay,
+  FIRST_HOLD_MS,
+  FLIP_MS,
+  HOLD_MS,
+  LAND_MS,
+  parseScreens,
+  randomGlyph,
+  screenChars,
+  spinSteps,
+  tileDelay,
 } from '@/lib/flap';
 import { getSiteSound } from '@/lib/sound';
 
@@ -26,11 +32,14 @@ interface Tile {
 
 const setFace = (span: HTMLSpanElement | undefined, ch: string) => {
   if (!span) return;
-  span.textContent = ch === ' ' ? BLANK : ch;  
+  span.textContent = ch === ' ' ? BLANK : ch;
   span.classList.toggle('is-dot', ch === '.');
 };
 
-const wait = (ms: number) => new Promise<void>((resolve) => { setTimeout(resolve, ms); });
+const wait = (ms: number) =>
+  new Promise<void>((resolve) => {
+    setTimeout(resolve, ms);
+  });
 
 /**
  * Hand-built split-flap board: each tile has two static halves and two hinged leaves animated with
@@ -74,11 +83,17 @@ export function Flapboard({ lines, cols = 8 }: { lines: string; cols?: number })
       setFace(lTop, t.cur);
       setFace(lBot, next);
       await t.leafTop.animate(
-        [{ transform: 'rotateX(0deg)', filter: 'brightness(1)' }, { transform: 'rotateX(-90deg)', filter: 'brightness(.55)' }],
+        [
+          { transform: 'rotateX(0deg)', filter: 'brightness(1)' },
+          { transform: 'rotateX(-90deg)', filter: 'brightness(.55)' },
+        ],
         { duration: dur * 0.5, easing: 'cubic-bezier(.55, 0, 1, .45)', fill: 'forwards' },
       ).finished;
       await t.leafBottom.animate(
-        [{ transform: 'rotateX(90deg)', filter: 'brightness(1.5)' }, { transform: 'rotateX(0deg)', filter: 'brightness(1)' }],
+        [
+          { transform: 'rotateX(90deg)', filter: 'brightness(1.5)' },
+          { transform: 'rotateX(0deg)', filter: 'brightness(1)' },
+        ],
         { duration: dur * 0.5, easing: 'cubic-bezier(0, .55, .45, 1)', fill: 'forwards' },
       ).finished;
       click();
@@ -86,7 +101,7 @@ export function Flapboard({ lines, cols = 8 }: { lines: string; cols?: number })
       setFace(lTop, next);
       t.leafTop.getAnimations().forEach((a) => a.cancel());
       t.leafBottom.getAnimations().forEach((a) => a.cancel());
-       
+
       t.cur = next;
     };
 
@@ -95,7 +110,6 @@ export function Flapboard({ lines, cols = 8 }: { lines: string; cols?: number })
       await wait(delay);
       const steps = spinSteps(Math.random);
       for (let i = 0; i < steps && alive; i += 1) {
-         
         await flipOnce(t, randomGlyph(Math.random, [target, t.cur]), FLIP_MS);
       }
       if (alive) await flipOnce(t, target, LAND_MS);
@@ -107,19 +121,25 @@ export function Flapboard({ lines, cols = 8 }: { lines: string; cols?: number })
         tiles.forEach((t, k) => {
           const ch = chars[k] ?? ' ';
           t.faces.forEach((f) => setFace(f, ch));
-           
+
           t.cur = ch;
         });
         return Promise.resolve();
       }
-      return Promise.all(tiles.map((t, k) => spin(t, chars[k] ?? ' ', tileDelay(Math.floor(k / cols), k % cols))));
+      return Promise.all(
+        tiles.map((t, k) => spin(t, chars[k] ?? ' ', tileDelay(Math.floor(k / cols), k % cols))),
+      );
     };
 
-    const io = new IntersectionObserver(([entry]) => { visible = Boolean(entry?.isIntersecting); }, { threshold: 0.4 });
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        visible = Boolean(entry?.isIntersecting);
+      },
+      { threshold: 0.4 },
+    );
     io.observe(el);
 
     const waitVisible = async () => {
-       
       while (alive && (!visible || document.hidden)) await wait(250);
     };
 
@@ -130,13 +150,12 @@ export function Flapboard({ lines, cols = 8 }: { lines: string; cols?: number })
       await show(idx);
       if (reduced || screens.length < 2) return;
       while (alive) {
-         
         await wait(idx === 0 ? FIRST_HOLD_MS : HOLD_MS);
-         
+
         await waitVisible();
         if (!alive) return;
         idx = (idx + 1) % screens.length;
-         
+
         await show(idx);
       }
     })();
@@ -148,10 +167,20 @@ export function Flapboard({ lines, cols = 8 }: { lines: string; cols?: number })
   }, [screens, rows, cols]);
 
   return (
-    <span className="flapboard flapboard--footer" data-flap aria-hidden="true" ref={board} style={{ '--cols': cols } as CSSProperties}>
+    <span
+      className="flapboard flapboard--footer"
+      data-flap
+      aria-hidden="true"
+      ref={board}
+      style={{ '--cols': cols } as CSSProperties}
+    >
       {Array.from({ length: rows * cols }, (_, k) => (
         <span className="flap" key={k}>
-          {HALVES.map((cls) => <span className={cls} key={cls}><span>{BLANK}</span></span>)}
+          {HALVES.map((cls) => (
+            <span className={cls} key={cls}>
+              <span>{BLANK}</span>
+            </span>
+          ))}
         </span>
       ))}
     </span>

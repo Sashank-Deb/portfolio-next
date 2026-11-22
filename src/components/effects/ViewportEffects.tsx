@@ -25,9 +25,12 @@ export function ViewportEffects() {
     }, REVEAL_OPTIONS);
     reveals.forEach((el) => revealer.observe(el));
 
-    const loops = new IntersectionObserver((entries) => {
-      entries.forEach((e) => e.target.classList.toggle('is-offscreen', !e.isIntersecting));
-    }, { rootMargin: '100px 0px' });
+    const loops = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.target.classList.toggle('is-offscreen', !e.isIntersecting));
+      },
+      { rootMargin: '100px 0px' },
+    );
     document.querySelectorAll(LOOPS).forEach((el) => loops.observe(el));
 
     return () => {
