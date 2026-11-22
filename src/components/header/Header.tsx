@@ -1,6 +1,6 @@
-import { CONTACT_SUBJECT, NAV_ITEMS, mailto } from '@/content/site';
+import { NAV_ITEMS } from '@/content/site';
 import { Dot } from '../ui/Dot';
-import { PeekingPill } from '../ui/PeekingPill';
+import { EmailPill } from '../ui/EmailPill';
 import { HeaderShell } from './HeaderShell';
 import { NavClose } from './NavClose';
 import { NavLink } from './NavLink';
@@ -34,13 +34,7 @@ export function Header() {
           <div className="nav__actions">
             <SoundToggle />
             <ThemeToggle />
-            <PeekingPill
-              className="pill--nav"
-              href={mailto(CONTACT_SUBJECT)}
-              label="Contact"
-              avatarSize={36}
-              yieldTo="contact"
-            />
+            <EmailPill className="pill--nav" label="Contact" avatarSize={36} yieldTo="contact" />
             <NavToggle />
           </div>
         </NavProvider>

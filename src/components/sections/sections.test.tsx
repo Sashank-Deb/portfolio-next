@@ -1,3 +1,5 @@
+import { CONTACT_SUBJECT, EMAIL } from '@/content/site';
+import { gmailWebUrl } from '@/lib/gmail';
 import { render, screen, within } from '@testing-library/react';
 import { About } from './About';
 import { Certifications } from './Certifications';
@@ -144,7 +146,8 @@ describe('Contact', () => {
       'We may work well together.',
     );
     const pill = screen.getByRole('link', { name: 'Email Sashank' });
-    expect(pill).toHaveAttribute('href', 'mailto:sashankdebrgu7@gmail.com?subject=Hello%20Sashank');
+    expect(pill).toHaveAttribute('href', gmailWebUrl(EMAIL, CONTACT_SUBJECT));
+    expect(pill).toHaveAttribute('target', '_blank');
     expect(pill).toHaveClass('pill--lg');
     expect(screen.getByRole('link', { name: 'Or reach me on LinkedIn' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '+91 73974 41915' })).toHaveAttribute(

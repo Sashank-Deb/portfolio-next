@@ -1,3 +1,5 @@
+import { CONTACT_SUBJECT, EMAIL } from '@/content/site';
+import { gmailWebUrl } from '@/lib/gmail';
 import { render, screen } from '@testing-library/react';
 import { Header } from './header/Header';
 import { Footer } from './footer/Footer';
@@ -12,7 +14,8 @@ describe('Header', () => {
     expect(screen.getByRole('button', { name: 'Turn sound effects off' })).toBeInTheDocument();
     const pill = screen.getByRole('link', { name: 'Email Sashank' });
     expect(pill).toHaveClass('pill--nav');
-    expect(pill).toHaveAttribute('href', 'mailto:sashankdebrgu7@gmail.com?subject=Hello%20Sashank');
+    expect(pill).toHaveAttribute('href', gmailWebUrl(EMAIL, CONTACT_SUBJECT));
+    expect(pill).toHaveAttribute('target', '_blank');
   });
 });
 
