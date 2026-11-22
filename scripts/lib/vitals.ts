@@ -149,5 +149,5 @@ export const compareVitals = (comparison: Comparison): string => {
   const verdict = regressed
     ? '⚠️ **Regression**: at least one metric got worse beyond run-to-run noise.'
     : '✅ No regressions beyond run-to-run noise.';
-  return [verdict, '', ...sections].join('\n');
+  return [verdict, '', sections.join('\n\n')].join('\n');
 };
