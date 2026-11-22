@@ -10,7 +10,9 @@ describe('Header', () => {
     expect(nav.querySelectorAll('.nav__link')).toHaveLength(6);
     expect(screen.getByRole('button', { name: 'Toggle dark mode' })).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Turn sound effects off' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Email Sashank' })).toHaveClass('pill--nav');
+    const pill = screen.getByRole('link', { name: 'Email Sashank' });
+    expect(pill).toHaveClass('pill--nav');
+    expect(pill).toHaveAttribute('href', 'mailto:sashankdebrgu7@gmail.com?subject=Hello%20Sashank');
   });
 });
 

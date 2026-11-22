@@ -144,10 +144,7 @@ describe('Contact', () => {
       'We may work well together.',
     );
     const pill = screen.getByRole('link', { name: 'Email Sashank' });
-    expect(pill).toHaveAttribute(
-      'href',
-      'mailto:sashankdebrgu7@gmail.com?subject=Let%27s%20work%20together',
-    );
+    expect(pill).toHaveAttribute('href', 'mailto:sashankdebrgu7@gmail.com?subject=Hello%20Sashank');
     expect(pill).toHaveClass('pill--lg');
     expect(screen.getByRole('link', { name: 'Or reach me on LinkedIn' })).toBeInTheDocument();
     expect(screen.getByRole('link', { name: '+91 73974 41915' })).toHaveAttribute(
