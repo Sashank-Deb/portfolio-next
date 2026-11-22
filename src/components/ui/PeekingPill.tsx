@@ -1,18 +1,29 @@
 'use client';
 
-import { type ComponentProps, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  type CSSProperties,
+  type ComponentProps,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useReducedMotion } from '@/hooks/useMediaQuery';
 import { cx } from '@/lib/cx';
+import { fitScale } from '@/lib/fit-scale';
 import { Pill } from './Pill';
 
 const PEEK_EVERY_MS = 5000;
 const PEEK_FOR_MS = 1100;
+const EDGE_MARGIN = 20;
 
 type PeekingPillProps = ComponentProps<typeof Pill> & {
   /** When the first peek happens; offset pills so they take turns. */
   firstPeekMs?: number;
   /** Id of a section that has the stage while it's on screen; this pill stays still meanwhile. */
   yieldTo?: string;
+  /** Grow up to this factor while peeking, as far as fits on screen (CSS reads --peek-scale). */
+  grow?: number;
 };
 
 const inViewport = (el: Element) => {
@@ -23,6 +34,19 @@ const inViewport = (el: Element) => {
 // offsetParent is null when the pill is display: none at this breakpoint.
 const isOnScreen = (el: HTMLElement) => el.offsetParent !== null && inViewport(el);
 
+const scaleThatFits = (el: HTMLElement, max: number) => {
+  const { left, width } = el.getBoundingClientRect();
+  const origin = parseFloat(getComputedStyle(el).transformOrigin.split(' ')[0] ?? '');
+  return fitScale({
+    left,
+    width,
+    originX: Number.isNaN(origin) ? width / 2 : origin,
+    viewport: window.innerWidth,
+    margin: EDGE_MARGIN,
+    max,
+  });
+};
+
 /**
  * The contact pill, which every 5s briefly shows its hover state (Gmail slides in) with a subtle buzz.
  * It holds off while the visitor is hovering or focusing it (the real hover state is showing),
@@ -31,7 +55,9 @@ const isOnScreen = (el: HTMLElement) => el.offsetParent !== null && inViewport(e
 export function PeekingPill({
   firstPeekMs = 2000,
   yieldTo,
+  grow,
   className,
+  style,
   onPointerEnter,
   onPointerLeave,
   onFocus,
@@ -40,6 +66,7 @@ export function PeekingPill({
 }: PeekingPillProps) {
   const reduced = useReducedMotion();
   const [peek, setPeek] = useState(false);
+  const [scale, setScale] = useState<number>();
   const ref = useRef<HTMLAnchorElement>(null);
   const engaged = useRef({ hover: false, focus: false });
 
@@ -54,6 +81,7 @@ export function PeekingPill({
       const stage = yieldTo ? document.getElementById(yieldTo) : null;
       if (!el || hover || focus || document.hidden || covered || !isOnScreen(el)) return;
       if (stage && inViewport(stage)) return;
+      if (grow) setScale(scaleThatFits(el, grow)); // measured at rest, before the scale applies
       setPeek(true);
       hide = window.setTimeout(() => setPeek(false), PEEK_FOR_MS);
     };
@@ -66,7 +94,7 @@ export function PeekingPill({
       clearInterval(interval);
       clearTimeout(hide);
     };
-  }, [reduced, firstPeekMs, yieldTo]);
+  }, [reduced, firstPeekMs, yieldTo, grow]);
 
   const engage = useCallback((key: 'hover' | 'focus', on: boolean) => {
     engaged.current[key] = on;
@@ -78,6 +106,7 @@ export function PeekingPill({
       {...pill}
       ref={ref}
       className={cx(className, peek && 'is-peek')}
+      style={scale ? ({ ...style, '--peek-scale': scale } as CSSProperties) : style}
       onPointerEnter={(e) => {
         engage('hover', true);
         onPointerEnter?.(e);
