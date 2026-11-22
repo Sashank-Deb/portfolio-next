@@ -15,6 +15,7 @@
 
 ## Checklist
 
+- [ ] PR title is a conventional commit message (it becomes the squash commit on `main`)
 - [ ] Branch is `type/short-description` and rebased on `main`
 - [ ] Each commit is one small, conventional, self-contained change (≤ 400 lines)
 - [ ] Lighthouse comment shows no regression (or it's explained here)

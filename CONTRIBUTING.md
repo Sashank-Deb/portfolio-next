@@ -8,7 +8,7 @@ Trunk-based (GitHub Flow): `main` is always deployable and Vercel ships every me
 - **One short-lived branch per change**, named `type/short-description` in lowercase with hyphens, using the same types as commits: `feat/`, `fix/`, `perf/`, `refactor/`, `style/`, `test/`, `docs/`, `build/`, `ci/`, `chore/`, `deps/`, `revert/`.
   Examples: `feat/cta-pill-peek`, `fix/intro-flash-slow-network`, `perf/hero-image-lcp`.
 - **Keep it current by rebasing** on `main` (`git pull --rebase origin main`), not by merging `main` in. History stays linear.
-- **Merge with "Rebase and merge"** so every micro commit lands on `main` as-is. Squash and merge commits are disabled. The branch is deleted after merge.
+- **Merge with "Squash and merge"** (the only method enabled). `main` gets one conventional commit per PR, titled from the PR title, with the PR's micro commits listed in its body; the micro commits themselves stay reviewable in the PR. The branch is deleted after merge.
 
 ## Commits
 
@@ -32,7 +32,7 @@ A commit that has to be big (a formatter run, a generated file) states why with 
 Large-Commit: one-off prettier run over the whole codebase
 ```
 
-Formatting-only commits go in `.git-blame-ignore-revs`. Run `git config blame.ignoreRevsFile .git-blame-ignore-revs` once to use it.
+Keep formatting-only changes in their own PR where you can, so the squashed commit on `main` doesn't mix them with behaviour changes.
 
 ## Local checks (installed by `npm install`)
 
@@ -46,10 +46,10 @@ Formatting is Prettier's job and code quality is ESLint's (Airbnb rules, with `e
 
 ## Pull requests
 
-Open a PR from your branch into `main` and fill in the template. A PR can merge when:
+Open a PR from your branch into `main` and fill in the template. **The PR title must be a conventional commit message** (e.g. `feat(pill): pause the peek while hovered`), because it becomes the squash commit on `main`. A PR can merge when:
 
 - **CI › Lint, types, tests, build** passes: Prettier check, ESLint, TypeScript, Jest with coverage thresholds, and a production build.
-- **CI › PR policy** passes: branch name, a conventional message for every commit, and every commit within the micro-commit budget.
+- **CI › PR policy** passes: branch name, a conventional PR title, a conventional message for every commit, and every commit within the micro-commit budget.
 - **Lighthouse › Core Web Vitals before/after** has run. It builds `main` and the PR, runs the Lighthouse CLI three times on each for mobile and desktop, and posts the median LCP, CLS, TBT (the lab stand-in for INP), FCP, Speed Index and performance score side by side. A regression beyond run-to-run noise is flagged ⚠️ and must be fixed or explained in the PR.
 - All review conversations are resolved, and the branch is up to date with `main`.
 
