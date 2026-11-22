@@ -34,13 +34,22 @@ const inViewport = (el: Element) => {
 // offsetParent is null when the pill is display: none at this breakpoint.
 const isOnScreen = (el: HTMLElement) => el.offsetParent !== null && inViewport(el);
 
+/**
+ * While peeking the pill also widens (the Gmail icon slides in) into the margin CSS reserves beside it,
+ * so the fit is measured on that footprint: the resting box plus its reserved margins.
+ */
 const scaleThatFits = (el: HTMLElement, max: number) => {
-  const { left, width } = el.getBoundingClientRect();
-  const origin = parseFloat(getComputedStyle(el).transformOrigin.split(' ')[0] ?? '');
+  const rect = el.getBoundingClientRect();
+  const css = getComputedStyle(el);
+  const px = (v: string | undefined) => parseFloat(v ?? '') || 0;
+  const reservedLeft = px(css.marginLeft);
+  const width = rect.width + reservedLeft + px(css.marginRight);
+  const origin = parseFloat(css.transformOrigin.split(' ')[0] ?? '');
+  const originShare = Number.isNaN(origin) || !rect.width ? 0.5 : origin / rect.width;
   return fitScale({
-    left,
+    left: rect.left - reservedLeft,
     width,
-    originX: Number.isNaN(origin) ? width / 2 : origin,
+    originX: originShare * width,
     viewport: window.innerWidth,
     margin: EDGE_MARGIN,
     max,
