@@ -1,6 +1,7 @@
 import path from 'node:path';
 import { includeIgnoreFile } from '@eslint/compat';
 import { configs, plugins } from 'eslint-config-airbnb-extended';
+import prettier from 'eslint-config-prettier/flat';
 import globals from 'globals';
 
 const gitignorePath = path.resolve('.', '.gitignore');
@@ -18,6 +19,9 @@ export default [
   plugins.typescriptEslint,
   ...configs.next.recommended,
   ...configs.next.typescript,
+
+  // Turn off every stylistic rule Prettier now owns (must come after the Airbnb configs).
+  prettier,
 
   {
     name: 'project/overrides',
