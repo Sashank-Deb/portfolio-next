@@ -23,6 +23,7 @@ export function Contact() {
             avatarSize={44}
             arrow
             firstPeekMs={4500}
+            grow={1.5}
           />
           <a
             className="cta__link"
