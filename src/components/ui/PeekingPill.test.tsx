@@ -99,6 +99,32 @@ describe('PeekingPill', () => {
     expect(pill()).toHaveClass('pill--lg', 'is-peek');
   });
 
+  it('stays still while the section it yields to is on screen', () => {
+    document.body.insertAdjacentHTML('beforeend', '<section id="contact"></section>');
+    const contact = document.getElementById('contact') as HTMLElement;
+    const sectionOnScreen = (visible: boolean) => {
+      jest
+        .spyOn(contact, 'getBoundingClientRect')
+        .mockReturnValue({ top: visible ? 300 : 5000, bottom: visible ? 900 : 5600 } as DOMRect);
+    };
+    sectionOnScreen(true);
+    render(
+      <PeekingPill
+        className="pill--nav"
+        href="mailto:a@b.c"
+        label="Contact"
+        avatarSize={36}
+        yieldTo="contact"
+      />,
+    );
+    tick(12000);
+    expect(pill()).not.toHaveClass('is-peek');
+    sectionOnScreen(false);
+    tick(5000);
+    expect(pill()).toHaveClass('is-peek');
+    contact.remove();
+  });
+
   it('can start later so two pills take turns', () => {
     render(
       <PeekingPill
