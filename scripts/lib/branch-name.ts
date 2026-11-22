@@ -15,7 +15,6 @@ export const BRANCH_TYPES = [
 ] as const;
 
 const PROTECTED = new Set(['main']);
-const AUTOMATION = /^(dependabot|renovate)\//;
 const SHAPE = /^([^/]+)\/([^/]+)$/;
 const SLUG = /^[a-z0-9][a-z0-9.-]*$/;
 
@@ -28,8 +27,6 @@ export const checkBranchName = (name: string): BranchCheck => {
       message: `"${name}" is protected: create a branch (e.g. feat/short-description) and open a PR.`,
     };
   }
-  if (AUTOMATION.test(name)) return { ok: true };
-
   const match = SHAPE.exec(name);
   if (!match)
     return { ok: false, message: `Branch "${name}" must look like type/short-description.` };

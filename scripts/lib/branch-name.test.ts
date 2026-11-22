@@ -47,7 +47,7 @@ describe('branch naming', () => {
     expect(result).toEqual({ ok: false, message: expect.stringMatching(/protected/) });
   });
 
-  it('lets automation branches through', () => {
-    expect(checkBranchName('dependabot/npm_and_yarn/next-16.1.0')).toEqual({ ok: true });
+  it('gives bot branches no exception', () => {
+    expect(checkBranchName('dependabot/npm_and_yarn/next-16.1.0').ok).toBe(false);
   });
 });
